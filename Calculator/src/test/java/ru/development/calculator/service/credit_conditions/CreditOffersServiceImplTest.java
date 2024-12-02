@@ -28,7 +28,7 @@ import java.util.UUID;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class CreditConditionsServiceImplTest {
+class CreditOffersServiceImplTest {
     @Mock
     private CreditProperties creditProperties;
     @Mock
@@ -40,7 +40,7 @@ class CreditConditionsServiceImplTest {
     @Mock
     private AnnuityLoanMonthlyPaymentCalculator annuityLoanMonthlyPaymentCalculator;
     @InjectMocks
-    private CreditConditionsServiceImpl creditConditionsService;
+    private CreditOffersServiceImpl creditConditionsService;
     private static LoanStatementRequestFullDto loanStatementRequestFullDto;
 
     @BeforeAll
@@ -69,15 +69,15 @@ class CreditConditionsServiceImplTest {
         when(insuranceManager.getAmountWithInsurance(BigDecimal.valueOf(500000))).thenReturn(BigDecimal.valueOf(510000.00));
         when(insuranceManager.getRateWithInsurance(BigDecimal.valueOf(27))).thenReturn(BigDecimal.valueOf(26));
         when(insuranceManager.getRateWithInsurance(BigDecimal.valueOf(26))).thenReturn(BigDecimal.valueOf(25));
+        when(annuityLoanMonthlyPaymentCalculator.getMonthlyPayment(BigDecimal.valueOf(27), BigDecimal.valueOf(500000),
+                12)).thenReturn(BigDecimal.valueOf(48008.70));
         when(annuityLoanMonthlyPaymentCalculator.getMonthlyPayment(BigDecimal.valueOf(26), BigDecimal.valueOf(500000),
                 12)).thenReturn(BigDecimal.valueOf(47765.07));
+        when(annuityLoanMonthlyPaymentCalculator.getMonthlyPayment(BigDecimal.valueOf(26), BigDecimal.valueOf(510000.00),
+                12)).thenReturn(BigDecimal.valueOf(48720.37));
         when(annuityLoanMonthlyPaymentCalculator.getMonthlyPayment(BigDecimal.valueOf(25), BigDecimal.valueOf(510000.00),
                 12)).thenReturn(BigDecimal.valueOf(48472.54));
 
-        when(annuityLoanMonthlyPaymentCalculator.getMonthlyPayment(BigDecimal.valueOf(26), BigDecimal.valueOf(510000.00),
-                12)).thenReturn(BigDecimal.valueOf(48720.37));
-        when(annuityLoanMonthlyPaymentCalculator.getMonthlyPayment(BigDecimal.valueOf(27), BigDecimal.valueOf(500000),
-                12)).thenReturn(BigDecimal.valueOf(48008.70));
 
         List<LoanOfferDto> expectedList = new ArrayList<>();
         expectedList.add(new LoanOfferDto(UUID.fromString("9970fcbf-31ba-4193-a1d6-0a57d2a71624"), BigDecimal.valueOf(500000),
@@ -93,8 +93,7 @@ class CreditConditionsServiceImplTest {
                 BigDecimal.valueOf(581670.48), 12, BigDecimal.valueOf(48472.54), BigDecimal.valueOf(25),
                 true, true));
         expectedList = expectedList.stream().sorted(Comparator.comparing(LoanOfferDto::getRate).reversed()).toList();
-
-        List<LoanOfferDto> resultList = creditConditionsService.calculateCreditConditions(loanStatementRequestFullDto);
+        List<LoanOfferDto> resultList = creditConditionsService.calculateCreditOffers(loanStatementRequestFullDto);
 
         Assertions.assertEquals(expectedList, resultList);
     }

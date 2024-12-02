@@ -5,6 +5,6 @@ import ru.development.calculator.model.dto.LoanStatementRequestFullDto;
 
 import java.util.List;
 
-public interface CreditConditionsService {
-    List<LoanOfferDto> calculateCreditConditions(LoanStatementRequestFullDto loanStatementRequestFullDto);
+public interface CreditOffersService {
+    List<LoanOfferDto> calculateCreditOffers(LoanStatementRequestFullDto loanStatementRequestFullDto);
 }

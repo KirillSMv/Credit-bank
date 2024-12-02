@@ -7,7 +7,7 @@ import ru.development.calculator.model.CreditParameters;
 import ru.development.calculator.model.CreditParametersShort;
 import ru.development.calculator.model.dto.*;
 import ru.development.calculator.model.dto.mapper.CreditDtoMapper;
-import ru.development.calculator.service.credit_conditions.CreditConditionsService;
+import ru.development.calculator.service.credit_conditions.CreditOffersService;
 import ru.development.calculator.service.credit_parameters.AnnuityLoanParametersService;
 import ru.development.calculator.service.scoring.ScoringService;
 import ru.development.calculator.service.support.interfaces.InsuranceManager;
@@ -22,7 +22,7 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 public class CreditServiceImpl implements CreditService {
-    private final CreditConditionsService creditConditionsService;
+    private final CreditOffersService creditOffersService;
     private final AnnuityLoanParametersService annuityLoanParametersService;
     private final ScoringService scoringService;
     private final ParametersByScoreCalculator parametersByScoreCalculator;
@@ -33,7 +33,7 @@ public class CreditServiceImpl implements CreditService {
 
     @Override
     public List<LoanOfferDto> calculateCreditConditions(LoanStatementRequestFullDto loanStatementRequestFullDto) {
-        return creditConditionsService.calculateCreditConditions(loanStatementRequestFullDto);
+        return creditOffersService.calculateCreditOffers(loanStatementRequestFullDto);
     }
 
     @Override
