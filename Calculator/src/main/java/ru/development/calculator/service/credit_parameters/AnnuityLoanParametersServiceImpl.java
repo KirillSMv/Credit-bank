@@ -37,9 +37,11 @@ public class AnnuityLoanParametersServiceImpl implements AnnuityLoanParametersSe
     }
 
     private BigDecimal getLoanPsk(BigDecimal monthlyPayment, BigDecimal amount, Integer term) {
+        BigDecimal pskCalculationConstant = BigDecimal.valueOf(1);
+        BigDecimal convertToPercentConstant = BigDecimal.valueOf(100);
         return ((monthlyPayment.multiply(BigDecimal.valueOf(term))).divide(amount, creditProperties.getInterCalcAccuracy(), HALF_UP))
-                .subtract(BigDecimal.valueOf(1))
-                .multiply((BigDecimal.valueOf(100))).setScale(2, RoundingMode.HALF_UP);
+                .subtract(pskCalculationConstant)
+                .multiply(convertToPercentConstant).setScale(creditProperties.getFinalCalcAccuracy(), RoundingMode.HALF_UP);
     }
 
     private List<PaymentScheduleElementDto> getPaymentSchedule(CreditParametersShort creditParametersShort) {
@@ -76,7 +78,9 @@ public class AnnuityLoanParametersServiceImpl implements AnnuityLoanParametersSe
     }
 
     private BigDecimal getMonthlyRate(BigDecimal rate) {
-        BigDecimal monthlyRateInPercent = rate.divide(BigDecimal.valueOf(12), creditProperties.getInterCalcAccuracy(), HALF_UP);
-        return monthlyRateInPercent.divide(BigDecimal.valueOf(100), creditProperties.getInterCalcAccuracy(), HALF_UP);
+        BigDecimal numberOfMonths = BigDecimal.valueOf(12);
+        BigDecimal constantConvertToPercent = BigDecimal.valueOf(100);
+        BigDecimal monthlyRateInPercent = rate.divide(numberOfMonths, creditProperties.getInterCalcAccuracy(), HALF_UP);
+        return monthlyRateInPercent.divide(constantConvertToPercent, creditProperties.getInterCalcAccuracy(), HALF_UP);
     }
 }

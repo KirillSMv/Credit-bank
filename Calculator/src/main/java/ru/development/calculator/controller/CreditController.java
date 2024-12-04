@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.development.calculator.model.dto.CreditDto;
 import ru.development.calculator.model.dto.LoanOfferDto;
@@ -22,14 +23,14 @@ public class CreditController {
 
     @PostMapping("/offers")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public List<LoanOfferDto> calculateCreditConditions(@RequestBody @Valid LoanStatementRequestFullDto loanStatementRequestFullDto) {
+    public ResponseEntity<List<LoanOfferDto>> calculateCreditConditions(@RequestBody @Valid LoanStatementRequestFullDto loanStatementRequestFullDto) {
         log.debug("метод calculateCreditConditions, statementId = {}", loanStatementRequestFullDto.getStatementId());
-        return creditService.calculateCreditConditions(loanStatementRequestFullDto);
+        return new ResponseEntity<>(creditService.calculateCreditConditions(loanStatementRequestFullDto), HttpStatus.OK);
     }
 
     @PostMapping("/calc")
-    public CreditDto calculateCreditParameters(@RequestBody @Valid ScoringDataDto scoringDataDto) {
+    public ResponseEntity<CreditDto> calculateCreditParameters(@RequestBody @Valid ScoringDataDto scoringDataDto) {
         log.debug("метод calculateCreditParameters");
-        return creditService.calculateCreditParameters(scoringDataDto);
+        return new ResponseEntity<>(creditService.calculateCreditParameters(scoringDataDto), HttpStatus.OK);
     }
 }
