@@ -32,8 +32,8 @@ public class CreditServiceImpl implements CreditService {
     private final LoanFeasibilityAssessor loanFeasibilityAssessor;
 
     @Override
-    public List<LoanOfferDto> calculateCreditConditions(LoanStatementRequestFullDto loanStatementRequestFullDto) {
-        return creditOffersService.calculateCreditOffers(loanStatementRequestFullDto);
+    public List<LoanOfferDto> calculateCreditConditions(LoanStatementRequestDto loanStatementRequestDto) {
+        return creditOffersService.calculateCreditOffers(loanStatementRequestDto);
     }
 
     @Override

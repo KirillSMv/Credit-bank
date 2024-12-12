@@ -6,7 +6,8 @@ import java.util.Set;
 public enum MaritalStatus {
     MARRIED(Set.of("Женат", "Замужем")),
     DIVORCED(Set.of("Разведен", "Разведена")),
-    SINGLE(Set.of("Не женат", "Не замужем"));
+    SINGLE(Set.of("Не женат", "Не замужем")),
+    WIDOW_WIDOWER(Set.of("Вдова", "Вдовец"));
 
     private final Set<String> status;
 

@@ -3,9 +3,11 @@ package ru.development.calculator.model.enums;
 import java.util.Optional;
 
 public enum PositionType {
-    MANAGERMIDDLELEVEL("Менеджер среднего звена"),
-    TOPMANAGER("Топ-менеджер"),
-    OTHER("Другое");
+    MID_MANAGER("Менеджер среднего звена"),
+    TOP_MANAGER("Топ-менеджер"),
+    OTHER("Другое"),
+    WORKER("Наемный сотрудник"),
+    OWNER("Владелец бизнеса");
 
     final String positionType;
 

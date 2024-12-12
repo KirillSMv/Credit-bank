@@ -47,10 +47,10 @@ public class EmploymentScoringEvaluatorImpl implements EmploymentScoringEvaluato
                 log.warn("метод evaluateEmploymentStatus, отказ по причине рабочего статуса: {}", UNEMPLOYED.getEmploymentStatus());
                 throw new ScoringException("К сожалению, вам отказано в кредите");
             }
-            case SELFEMPLOYED -> {
+            case SELF_EMPLOYED -> {
                 score = BigDecimal.valueOf(100).multiply(employmentScoreProperties.getSelfEmployedCoef());
             }
-            case BUSINESSOWNER -> {
+            case BUSINESS_OWNER -> {
                 score = BigDecimal.valueOf(100).multiply(employmentScoreProperties.getBusinessOwnerCoef());
             }
             case EMPLOYED -> {
@@ -67,14 +67,20 @@ public class EmploymentScoringEvaluatorImpl implements EmploymentScoringEvaluato
         }
         BigDecimal score = BigDecimal.valueOf(100);
         switch (positionType) {
-            case MANAGERMIDDLELEVEL -> {
+            case MID_MANAGER -> {
                 score = BigDecimal.valueOf(100).multiply(employmentScoreProperties.getManagerMiddleLevelCoef());
             }
-            case TOPMANAGER -> {
+            case TOP_MANAGER -> {
                 score = BigDecimal.valueOf(100).multiply(employmentScoreProperties.getTopManagerCoef());
             }
             case OTHER -> {
                 score = BigDecimal.valueOf(100).multiply(employmentScoreProperties.getOtherPositionCoef());
+            }
+            case OWNER -> {
+                score = BigDecimal.valueOf(100).multiply(employmentScoreProperties.getOwnerPositionCoef());
+            }
+            case WORKER -> {
+                score = BigDecimal.valueOf(100).multiply(employmentScoreProperties.getWorkerPositionCoef());
             }
         }
         log.debug("метод evaluatePosition, subscore = {}", score);

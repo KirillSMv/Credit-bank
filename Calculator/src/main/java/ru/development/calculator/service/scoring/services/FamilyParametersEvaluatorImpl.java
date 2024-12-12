@@ -59,6 +59,9 @@ public class FamilyParametersEvaluatorImpl implements FamilyParametersEvaluator 
             case SINGLE -> {
                 score = BigDecimal.valueOf(100).multiply(familyParametersScoreProperties.getSingleStatusCoef());
             }
+            case WIDOW_WIDOWER -> {
+                score = BigDecimal.valueOf(100).multiply(familyParametersScoreProperties.getWidowStatusCoef());
+            }
         }
         log.debug("метод evaluateMaritalStatus, subscore = {}", score);
         return score;

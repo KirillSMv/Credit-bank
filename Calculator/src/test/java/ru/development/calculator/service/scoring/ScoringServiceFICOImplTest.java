@@ -24,7 +24,7 @@ import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith({MockitoExtension.class})
-class ScoringServiceFICOImplTest {
+class LoanOfferDtoScoringServiceFICOImplTest {
 
     @Mock
     private EmploymentScoringEvaluator employmentScoringEvaluator;
@@ -52,7 +52,7 @@ class ScoringServiceFICOImplTest {
                 .employerINN("1111111111")
                 .employmentStatus(EmploymentStatus.EMPLOYED)
                 .salary(BigDecimal.valueOf(60000))
-                .positionType(PositionType.TOPMANAGER)
+                .positionType(PositionType.TOP_MANAGER)
                 .workExperienceTotal(120)
                 .workExperienceCurrent(120).build();
 

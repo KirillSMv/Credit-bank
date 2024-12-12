@@ -17,6 +17,7 @@ public class FamilyParametersScoreProperties {
     private BigDecimal marriedStatusCoef;
     private BigDecimal divorcedStatusCoef;
     private BigDecimal singleStatusCoef;
+    private BigDecimal widowStatusCoef;
     private Integer highNumberOfDependents;
     private BigDecimal highNumberOfDependentsCoef;
     private Integer mediumNumberOfDependents;

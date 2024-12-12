@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.development.calculator.model.dto.LoanOfferDto;
-import ru.development.calculator.model.dto.LoanStatementRequestFullDto;
+import ru.development.calculator.model.dto.LoanStatementRequestDto;
 import ru.development.calculator.service.prescoring.PreScoringService;
 import ru.development.calculator.service.properties.CreditProperties;
 import ru.development.calculator.service.support.interfaces.AnnuityLoanMonthlyPaymentCalculator;
@@ -28,17 +28,17 @@ public class CreditOffersServiceImpl implements CreditOffersService {
     private final AnnuityLoanMonthlyPaymentCalculator annuityLoanMonthlyPaymentCalculator;
 
     @Override
-    public List<LoanOfferDto> calculateCreditOffers(LoanStatementRequestFullDto loanStatementRequestFullDto) {
-        preScoringService.preScoring(loanStatementRequestFullDto);
+    public List<LoanOfferDto> calculateCreditOffers(LoanStatementRequestDto loanStatementRequestDto) {
+        preScoringService.preScoring(loanStatementRequestDto);
         List<LoanOfferDto> offers = new ArrayList<>();
-        offers.add(getCreditOffer(true, true, loanStatementRequestFullDto));
-        offers.add(getCreditOffer(true, false, loanStatementRequestFullDto));
-        offers.add(getCreditOffer(false, true, loanStatementRequestFullDto));
-        offers.add(getCreditOffer(false, false, loanStatementRequestFullDto));
+        offers.add(getCreditOffer(true, true, loanStatementRequestDto));
+        offers.add(getCreditOffer(true, false, loanStatementRequestDto));
+        offers.add(getCreditOffer(false, true, loanStatementRequestDto));
+        offers.add(getCreditOffer(false, false, loanStatementRequestDto));
         return offers.stream().sorted(Comparator.comparing(LoanOfferDto::getRate).reversed()).toList();
     }
 
-    private LoanOfferDto getCreditOffer(boolean IsSalaryClient, boolean isInsuranceEnabled, LoanStatementRequestFullDto dto) {
+    private LoanOfferDto getCreditOffer(boolean IsSalaryClient, boolean isInsuranceEnabled, LoanStatementRequestDto dto) {
         BigDecimal rate = getNormalRateForLoan();
         BigDecimal amount = dto.getAmount();
         int term = dto.getTerm();
@@ -55,7 +55,7 @@ public class CreditOffersServiceImpl implements CreditOffersService {
                 .setScale(creditProperties.getFinalCalcAccuracy(), RoundingMode.HALF_UP);
         BigDecimal totalAmount = monthlyPayment.multiply(BigDecimal.valueOf(term)).setScale(creditProperties.getFinalCalcAccuracy(), RoundingMode.HALF_UP);
         log.debug("метод getCreditOffer(), rate = {}, totalAmount: {}", rate, totalAmount);
-        return new LoanOfferDto(dto.getStatementId(), dto.getAmount(), totalAmount, term, monthlyPayment, rate, isInsuranceEnabled, IsSalaryClient);
+        return new LoanOfferDto(dto.getAmount(), totalAmount, term, monthlyPayment, rate, isInsuranceEnabled, IsSalaryClient);
     }
 
     private BigDecimal getNormalRateForLoan() {

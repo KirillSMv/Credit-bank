@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.development.calculator.model.dto.CreditDto;
 import ru.development.calculator.model.dto.LoanOfferDto;
-import ru.development.calculator.model.dto.LoanStatementRequestFullDto;
+import ru.development.calculator.model.dto.LoanStatementRequestDto;
 import ru.development.calculator.model.dto.ScoringDataDto;
 import ru.development.calculator.service.CreditService;
 
@@ -23,14 +23,14 @@ public class CreditController {
 
     @PostMapping("/offers")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public ResponseEntity<List<LoanOfferDto>> calculateCreditConditions(@RequestBody @Valid LoanStatementRequestFullDto loanStatementRequestFullDto) {
-        log.debug("метод calculateCreditConditions, statementId = {}", loanStatementRequestFullDto.getStatementId());
-        return new ResponseEntity<>(creditService.calculateCreditConditions(loanStatementRequestFullDto), HttpStatus.OK);
+    public ResponseEntity<List<LoanOfferDto>> calculateCreditConditions(@RequestBody @Valid LoanStatementRequestDto loanStatementRequestDto) {
+        log.info("Получен запрос: метод=POST, URI=/calculator/offers");
+        return new ResponseEntity<>(creditService.calculateCreditConditions(loanStatementRequestDto), HttpStatus.OK);
     }
 
     @PostMapping("/calc")
     public ResponseEntity<CreditDto> calculateCreditParameters(@RequestBody @Valid ScoringDataDto scoringDataDto) {
-        log.debug("метод calculateCreditParameters");
+        log.info("Получен запрос: метод=POST, URI=/calculator/calc");
         return new ResponseEntity<>(creditService.calculateCreditParameters(scoringDataDto), HttpStatus.OK);
     }
 }

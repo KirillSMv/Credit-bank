@@ -4,8 +4,8 @@ import java.util.Optional;
 
 public enum EmploymentStatus {
     UNEMPLOYED("Безработный"),
-    SELFEMPLOYED("Самозанятый"),
-    BUSINESSOWNER("Владелец бизнеса"),
+    SELF_EMPLOYED("Самозанятый"),
+    BUSINESS_OWNER("Владелец бизнеса"),
     EMPLOYED("Трудоустроен");
 
     private final String employmentStatus;

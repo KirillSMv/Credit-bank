@@ -6,7 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import ru.development.calculator.error_handler.PrescoringException;
-import ru.development.calculator.model.dto.LoanStatementRequestFullDto;
+import ru.development.calculator.model.dto.LoanStatementRequestDto;
 
 import java.time.LocalDate;
 
@@ -21,12 +21,12 @@ public class PreScoringServiceImpl implements PreScoringService {
     private Integer clientMaxYear;
 
     @Override
-    public void preScoring(LoanStatementRequestFullDto loanStatementRequestFullDto) {
-        log.debug("preScoring заявки statementId: {}", loanStatementRequestFullDto.getStatementId());
-        ageValidation(loanStatementRequestFullDto.getBirthdate());
-        passportValidation(loanStatementRequestFullDto.getPassportSeries(), loanStatementRequestFullDto.getPassportNumber());
-        creditHistoryValidation(loanStatementRequestFullDto.getFirstName(), loanStatementRequestFullDto.getLastName(),
-                loanStatementRequestFullDto.getMiddleName());
+    public void preScoring(LoanStatementRequestDto loanStatementRequestDto) {
+        log.debug("preScoring заявки");
+        ageValidation(loanStatementRequestDto.getBirthdate());
+        passportValidation(loanStatementRequestDto.getPassportSeries(), loanStatementRequestDto.getPassportNumber());
+        creditHistoryValidation(loanStatementRequestDto.getFirstName(), loanStatementRequestDto.getLastName(),
+                loanStatementRequestDto.getMiddleName());
     }
 
     private void ageValidation(LocalDate birthdate) {

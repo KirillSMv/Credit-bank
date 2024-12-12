@@ -3,7 +3,7 @@ package ru.development.calculator.service.prescoring;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import ru.development.calculator.error_handler.PrescoringException;
-import ru.development.calculator.model.dto.LoanStatementRequestFullDto;
+import ru.development.calculator.model.dto.LoanStatementRequestDto;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -15,17 +15,16 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class PreScoringServiceImplTest {
-    private static LoanStatementRequestFullDto loanStatementRequestFullDto;
-    private static LoanStatementRequestFullDto requestDtoWithLowAge;
-    private static LoanStatementRequestFullDto requestDtoWithHighAge;
+    private static LoanStatementRequestDto loanStatementRequestDto;
+    private static LoanStatementRequestDto requestDtoWithLowAge;
+    private static LoanStatementRequestDto requestDtoWithHighAge;
     private static PreScoringService preScoringService;
 
     @BeforeAll
     static void get() {
         preScoringService = new PreScoringServiceImpl(20, 65);
 
-        loanStatementRequestFullDto = LoanStatementRequestFullDto.builder()
-                .statementId(UUID.randomUUID())
+        loanStatementRequestDto = LoanStatementRequestDto.builder()
                 .amount(BigDecimal.valueOf(500000))
                 .term(12)
                 .firstName("Ilya")
@@ -37,8 +36,7 @@ class PreScoringServiceImplTest {
                 .passportNumber("111111")
                 .build();
 
-        requestDtoWithLowAge = LoanStatementRequestFullDto.builder()
-                .statementId(UUID.randomUUID())
+        requestDtoWithLowAge = LoanStatementRequestDto.builder()
                 .amount(BigDecimal.valueOf(500000))
                 .term(12)
                 .firstName("Ilya")
@@ -50,8 +48,7 @@ class PreScoringServiceImplTest {
                 .passportNumber("111111")
                 .build();
 
-        requestDtoWithHighAge = LoanStatementRequestFullDto.builder()
-                .statementId(UUID.randomUUID())
+        requestDtoWithHighAge = LoanStatementRequestDto.builder()
                 .amount(BigDecimal.valueOf(500000))
                 .term(12)
                 .firstName("Ilya")
@@ -73,7 +70,7 @@ class PreScoringServiceImplTest {
                 "в списке террористов и экстремистов, долгов по ФНС не числится";
         String creditHistoryValidationPrint = "Отрицательной кредитной истории не выявлено";
 
-        preScoringService.preScoring(loanStatementRequestFullDto);
+        preScoringService.preScoring(loanStatementRequestDto);
 
         String expectedOutput = passportValidationPrint + System.lineSeparator() + creditHistoryValidationPrint
                 + System.lineSeparator();

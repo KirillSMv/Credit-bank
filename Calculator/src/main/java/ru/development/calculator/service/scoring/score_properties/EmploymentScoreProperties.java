@@ -21,6 +21,8 @@ public class EmploymentScoreProperties {
     private BigDecimal managerMiddleLevelCoef;
     private BigDecimal topManagerCoef;
     private BigDecimal otherPositionCoef;
+    private BigDecimal ownerPositionCoef;
+    private BigDecimal workerPositionCoef;
     private Integer minTotalWorkExp;
     private Integer minCurrentWorkExp;
     private Integer minReliableTotalWorkExp;

@@ -1,8 +1,8 @@
 package ru.development.calculator.service.prescoring;
 
-import ru.development.calculator.model.dto.LoanStatementRequestFullDto;
+import ru.development.calculator.model.dto.LoanStatementRequestDto;
 
 public interface PreScoringService {
 
-    void preScoring(LoanStatementRequestFullDto loanStatementRequestFullDto);
+    void preScoring(LoanStatementRequestDto loanStatementRequestDto);
 }

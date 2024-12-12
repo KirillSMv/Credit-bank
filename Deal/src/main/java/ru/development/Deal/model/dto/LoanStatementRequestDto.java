@@ -1,24 +1,19 @@
-package ru.development.calculator.model.dto;
+package ru.development.Deal.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.*;
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.lang.Nullable;
-import ru.development.calculator.validation.custom_annotations.AgeValidation;
-import ru.development.calculator.validation.custom_annotations.MiddleNameValidation;
+import ru.development.Deal.validation.custom_annotations.AgeValidation;
+import ru.development.Deal.validation.custom_annotations.MiddleNameValidation;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Data
 @Builder
-public class LoanStatementRequestFullDto {
-
-    @NotNull
-    private UUID statementId;
-
+public class LoanStatementRequestDto {
     @Min(value = 20000, message = "Сумма кредита не может быть менее {value} рублей")
     @Max(value = 100000000, message = "Сумма кредита не может быть более {value} рублей, " +
             "пожалуйста, обратитесь в любое отделение банка для рассмотрения вашей заявки")
@@ -64,3 +59,4 @@ public class LoanStatementRequestFullDto {
     @NotBlank(message = "Номер паспорта должен содержать 6 цифр")
     private String passportNumber;
 }
+

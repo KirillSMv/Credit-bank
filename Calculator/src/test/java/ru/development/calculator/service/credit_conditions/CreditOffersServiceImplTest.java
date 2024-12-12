@@ -10,7 +10,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 import ru.development.calculator.model.dto.LoanOfferDto;
-import ru.development.calculator.model.dto.LoanStatementRequestFullDto;
+import ru.development.calculator.model.dto.LoanStatementRequestDto;
 import ru.development.calculator.service.prescoring.PreScoringService;
 import ru.development.calculator.service.properties.CreditProperties;
 import ru.development.calculator.service.support.interfaces.AnnuityLoanMonthlyPaymentCalculator;
@@ -41,12 +41,11 @@ class CreditOffersServiceImplTest {
     private AnnuityLoanMonthlyPaymentCalculator annuityLoanMonthlyPaymentCalculator;
     @InjectMocks
     private CreditOffersServiceImpl creditConditionsService;
-    private static LoanStatementRequestFullDto loanStatementRequestFullDto;
+    private static LoanStatementRequestDto loanStatementRequestDto;
 
     @BeforeAll
     static void get() {
-        loanStatementRequestFullDto = LoanStatementRequestFullDto.builder()
-                .statementId(UUID.fromString("9970fcbf-31ba-4193-a1d6-0a57d2a71624"))
+        loanStatementRequestDto = LoanStatementRequestDto.builder()
                 .amount(BigDecimal.valueOf(500000))
                 .term(12)
                 .firstName("Ilya")
@@ -80,20 +79,20 @@ class CreditOffersServiceImplTest {
 
 
         List<LoanOfferDto> expectedList = new ArrayList<>();
-        expectedList.add(new LoanOfferDto(UUID.fromString("9970fcbf-31ba-4193-a1d6-0a57d2a71624"), BigDecimal.valueOf(500000),
+        expectedList.add(new LoanOfferDto(BigDecimal.valueOf(500000),
                 BigDecimal.valueOf(576104.40).setScale(2, RoundingMode.HALF_UP), 12, BigDecimal.valueOf(48008.70).setScale(2, RoundingMode.HALF_UP), BigDecimal.valueOf(27),
                 false, false));
-        expectedList.add(new LoanOfferDto(UUID.fromString("9970fcbf-31ba-4193-a1d6-0a57d2a71624"), BigDecimal.valueOf(500000),
+        expectedList.add(new LoanOfferDto(BigDecimal.valueOf(500000),
                 BigDecimal.valueOf(573180.84), 12, BigDecimal.valueOf(47765.07), BigDecimal.valueOf(26),
                 false, true));
-        expectedList.add(new LoanOfferDto(UUID.fromString("9970fcbf-31ba-4193-a1d6-0a57d2a71624"), BigDecimal.valueOf(500000),
+        expectedList.add(new LoanOfferDto(BigDecimal.valueOf(500000),
                 BigDecimal.valueOf(584644.44), 12, BigDecimal.valueOf(48720.37), BigDecimal.valueOf(26),
                 true, false));
-        expectedList.add(new LoanOfferDto(UUID.fromString("9970fcbf-31ba-4193-a1d6-0a57d2a71624"), BigDecimal.valueOf(500000),
+        expectedList.add(new LoanOfferDto(BigDecimal.valueOf(500000),
                 BigDecimal.valueOf(581670.48), 12, BigDecimal.valueOf(48472.54), BigDecimal.valueOf(25),
                 true, true));
         expectedList = expectedList.stream().sorted(Comparator.comparing(LoanOfferDto::getRate).reversed()).toList();
-        List<LoanOfferDto> resultList = creditConditionsService.calculateCreditOffers(loanStatementRequestFullDto);
+        List<LoanOfferDto> resultList = creditConditionsService.calculateCreditOffers(loanStatementRequestDto);
 
         Assertions.assertEquals(expectedList, resultList);
     }

@@ -46,7 +46,7 @@ class EmploymentScoringEvaluatorImplTest {
 
         employmentDtoSelfEmployedWithOtherPos = EmploymentDto.builder()
                 .employerINN("1111111111")
-                .employmentStatus(EmploymentStatus.SELFEMPLOYED)
+                .employmentStatus(EmploymentStatus.SELF_EMPLOYED)
                 .salary(BigDecimal.valueOf(60000))
                 .positionType(PositionType.OTHER)
                 .workExperienceTotal(300)
@@ -54,7 +54,7 @@ class EmploymentScoringEvaluatorImplTest {
 
         employmentDtoBusinessOwnerWithOtherPos = EmploymentDto.builder()
                 .employerINN("1111111111")
-                .employmentStatus(EmploymentStatus.BUSINESSOWNER)
+                .employmentStatus(EmploymentStatus.BUSINESS_OWNER)
                 .salary(BigDecimal.valueOf(60000))
                 .positionType(PositionType.OTHER)
                 .workExperienceTotal(300)
@@ -65,7 +65,7 @@ class EmploymentScoringEvaluatorImplTest {
                 .employerINN("1111111111")
                 .employmentStatus(EmploymentStatus.EMPLOYED)
                 .salary(BigDecimal.valueOf(60000))
-                .positionType(PositionType.TOPMANAGER)
+                .positionType(PositionType.TOP_MANAGER)
                 .workExperienceTotal(300)
                 .workExperienceCurrent(50).build();
 
@@ -73,7 +73,7 @@ class EmploymentScoringEvaluatorImplTest {
                 .employerINN("1111111111")
                 .employmentStatus(EmploymentStatus.EMPLOYED)
                 .salary(BigDecimal.valueOf(60000))
-                .positionType(PositionType.TOPMANAGER)
+                .positionType(PositionType.TOP_MANAGER)
                 .workExperienceTotal(10)
                 .workExperienceCurrent(10).build();
 
@@ -81,7 +81,7 @@ class EmploymentScoringEvaluatorImplTest {
                 .employerINN("1111111111")
                 .employmentStatus(EmploymentStatus.EMPLOYED)
                 .salary(BigDecimal.valueOf(60000))
-                .positionType(PositionType.TOPMANAGER)
+                .positionType(PositionType.TOP_MANAGER)
                 .workExperienceTotal(120)
                 .workExperienceCurrent(120).build();
 

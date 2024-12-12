@@ -19,10 +19,6 @@ import java.time.LocalDate;
 @Data
 @Builder
 public class ScoringDataDto {
-    @Min(value = 20000, message = "Сумма кредита не может быть менее {value} рублей")
-    @Max(value = 100000000, message = "Сумма кредита не может быть более {value} рублей, " +
-            "пожалуйста, обратитесь в любое отделение банка для рассмотрения вашей заявки")
-    @NotNull
     private BigDecimal amount;
 
     @Min(value = 6, message = "срок кредита не может быть менее {value} месяцев")

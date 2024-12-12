@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @Component
-@ConfigurationProperties(prefix = "credit-variables")
+@ConfigurationProperties(prefix = "credit-properties")
 public class CreditProperties {
     private BigDecimal centralBankInterestRate;
     private BigDecimal averageRateAboveCentralBInterestRate;
