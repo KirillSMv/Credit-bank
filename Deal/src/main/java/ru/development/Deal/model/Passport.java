@@ -1,4 +1,4 @@
-package ru.development.Deal.model.entity;
+package ru.development.Deal.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -14,7 +14,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name = "passport")
+@Table(name = "passports")
 public class Passport {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

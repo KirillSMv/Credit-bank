@@ -1,8 +1,8 @@
 package ru.development.Deal.model.dto.mapper;
 
 import org.springframework.stereotype.Component;
+import ru.development.Deal.model.Offer;
 import ru.development.Deal.model.dto.LoanOfferDto;
-import ru.development.Deal.model.entity.Offer;
 
 @Component
 public class OfferDtoMapper {

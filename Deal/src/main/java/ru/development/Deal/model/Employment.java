@@ -1,4 +1,4 @@
-package ru.development.Deal.model.entity;
+package ru.development.Deal.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 import java.util.UUID;
 
 @Entity
-@Table(name = "employment")
+@Table(name = "employments")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data

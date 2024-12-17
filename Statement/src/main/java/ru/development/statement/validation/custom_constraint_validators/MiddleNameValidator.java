@@ -1,8 +1,8 @@
-package ru.development.Deal.validation.custom_constraint_validators;
+package ru.development.statement.validation.custom_constraint_validators;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-import ru.development.Deal.validation.custom_annotations.MiddleNameValidation;
+import ru.development.statement.validation.custom_annotations.MiddleNameValidation;
 
 import java.util.regex.Pattern;
 

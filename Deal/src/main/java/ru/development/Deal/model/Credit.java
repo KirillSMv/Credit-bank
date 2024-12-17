@@ -1,4 +1,4 @@
-package ru.development.Deal.model.entity;
+package ru.development.Deal.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name = "credit")
+@Table(name = "credits")
 @Data
 @Builder
 @NoArgsConstructor

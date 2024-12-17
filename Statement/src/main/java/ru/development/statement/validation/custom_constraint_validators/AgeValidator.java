@@ -1,10 +1,10 @@
-package ru.development.Deal.validation.custom_constraint_validators;
+package ru.development.statement.validation.custom_constraint_validators;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import ru.development.Deal.validation.custom_annotations.AgeValidation;
+import ru.development.statement.validation.custom_annotations.AgeValidation;
 
 import java.time.LocalDate;
 

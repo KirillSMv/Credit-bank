@@ -1,4 +1,4 @@
-package ru.development.Deal.model.entity;
+package ru.development.Deal.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name = "statement")
+@Table(name = "statements")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

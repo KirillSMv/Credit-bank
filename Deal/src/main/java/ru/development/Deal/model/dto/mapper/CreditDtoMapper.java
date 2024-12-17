@@ -1,8 +1,8 @@
 package ru.development.Deal.model.dto.mapper;
 
 import org.springframework.stereotype.Component;
+import ru.development.Deal.model.Credit;
 import ru.development.Deal.model.dto.CreditDto;
-import ru.development.Deal.model.entity.Credit;
 import ru.development.Deal.model.enums.CreditStatus;
 
 @Component

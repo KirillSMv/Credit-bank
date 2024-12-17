@@ -18,28 +18,28 @@ public class ErrorHandler {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorObject handle(MethodArgumentNotValidException exception) {
-        log.warn("Exception: {}", exception.getMessage());
+        log.warn("MethodArgumentNotValidException exception: {}", exception.getMessage());
         return new ErrorObject(HttpStatus.BAD_REQUEST.getReasonPhrase().toUpperCase(), exception.getFieldError().getDefaultMessage(), LocalDateTime.now().format(TIME_PATTERN));
     }
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.FORBIDDEN)
     public ErrorObject handle(PrescoringException exception) {
-        log.warn("Exception: {}", exception.getMessage());
+        log.warn("PrescoringException exception: {}", exception.getMessage());
         return new ErrorObject(HttpStatus.FORBIDDEN.getReasonPhrase().toUpperCase(), exception.getMessage(), LocalDateTime.now().format(TIME_PATTERN));
     }
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.FORBIDDEN)
     public ErrorObject handle(ScoringException exception) {
-        log.warn("Exception: {}", exception.getMessage());
+        log.warn("ScoringException exception: {}", exception.getMessage());
         return new ErrorObject(HttpStatus.FORBIDDEN.getReasonPhrase().toUpperCase(), exception.getMessage(), LocalDateTime.now().format(TIME_PATTERN));
     }
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorObject handle(IllegalArgumentException exception) {
-        log.warn("Exception: {}", exception.getMessage());
+        log.warn("IllegalArgumentException exception: {}", exception.getMessage());
         return new ErrorObject(HttpStatus.BAD_REQUEST.getReasonPhrase().toUpperCase(), exception.getMessage(), LocalDateTime.now().format(TIME_PATTERN));
     }
 }

@@ -1,8 +1,8 @@
-package ru.development.Deal.validation.custom_annotations;
+package ru.development.statement.validation.custom_annotations;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
-import ru.development.Deal.validation.custom_constraint_validators.AgeValidator;
+import ru.development.statement.validation.custom_constraint_validators.AgeValidator;
 
 import java.lang.annotation.*;
 
