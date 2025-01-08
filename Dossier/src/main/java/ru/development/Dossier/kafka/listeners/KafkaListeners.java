@@ -3,6 +3,7 @@ package ru.development.Dossier.kafka.listeners;
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
+import ru.development.Dossier.client.ClientService;
 import ru.development.Dossier.kafka.KafkaTopicsMessagesProperties;
 import ru.development.Dossier.model.EmailMessageDto;
 
@@ -10,10 +11,10 @@ import ru.development.Dossier.model.EmailMessageDto;
 @RequiredArgsConstructor
 public class KafkaListeners {
     private final KafkaTopicsMessagesProperties properties;
-
+    private final ClientService clientService;
 
     @KafkaListener(
-            topics = "finish-registration",
+            topics = "finish-registration", //todo
             groupId = "dossier-consumer"
     )
     void listenFinishRegistrationTopic(EmailMessageDto message) {
@@ -33,6 +34,7 @@ public class KafkaListeners {
             groupId = "dossier-consumer"
     )
     void listenSendDocumentsTopic(EmailMessageDto message) {
+        clientService.send(String.valueOf(message.getStatementId()));
         System.out.println("send-documents received" + message);
     }
 

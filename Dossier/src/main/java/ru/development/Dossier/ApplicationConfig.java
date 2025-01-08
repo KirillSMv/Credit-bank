@@ -1,24 +1,28 @@
 package ru.development.Dossier;
 
-import com.fasterxml.jackson.databind.ser.std.StringSerializer;
+import lombok.RequiredArgsConstructor;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
+import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.config.KafkaListenerContainerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
-import org.springframework.kafka.support.serializer.JsonSerializer;
+import org.springframework.kafka.support.serializer.JsonDeserializer;
+import org.springframework.web.reactive.function.client.WebClient;
+import ru.development.Dossier.client.DealMSProperties;
 import ru.development.Dossier.model.EmailMessageDto;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.springframework.kafka.support.serializer.JsonSerializer.TYPE_MAPPINGS;
-
 @Configuration
+@RequiredArgsConstructor
 public class ApplicationConfig {
     @Value("${spring.kafka.bootstrap-servers}")
     private String bootstrapServers;
@@ -26,15 +30,17 @@ public class ApplicationConfig {
     @Value("${spring.kafka.clientId}")
     private String clientId;
 
+    private final DealMSProperties dealMSProperties;
+
     @Bean
     public ConsumerFactory<String, EmailMessageDto> consumerFactory() {
         Map<String, Object> properties = new HashMap<>();
         properties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
-        properties.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringSerializer.class);
-        properties.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonSerializer.class);
+        properties.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+        properties.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
         properties.put(ConsumerConfig.CLIENT_ID_CONFIG, clientId);
         properties.put(ConsumerConfig.GROUP_ID_CONFIG, "groupDossier");
-        properties.put(TYPE_MAPPINGS, "ru.development.Dossier.model.EmailMessageDto:ru.development.Dossier.model.EmailMessageDto");
+        properties.put(JsonDeserializer.TYPE_MAPPINGS, "ru.development.Dossier.model.EmailMessageDto:ru.development.Dossier.model.EmailMessageDto");
         properties.put(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, 500);
         properties.put(ConsumerConfig.MAX_POLL_INTERVAL_MS_CONFIG, 600_000);
         return new DefaultKafkaConsumerFactory<>(properties);
@@ -48,5 +54,15 @@ public class ApplicationConfig {
         return factory;
     }
 
+    @Bean
+    public WebClient webClientConfig() {
+        return WebClient.builder()
+                .baseUrl(dealMSProperties.getDealServerUrl())
+                .defaultHeaders(ApplicationConfig::headers)
+                .build();
+    }
 
+    private static void headers(HttpHeaders httpHeaders) {
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+    }
 }
