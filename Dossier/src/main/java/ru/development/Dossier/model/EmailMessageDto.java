@@ -3,13 +3,13 @@ package ru.development.Dossier.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.ui.context.Theme;
 
+import java.io.Serializable;
 import java.util.UUID;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class EmailMessageDto {
+public class EmailMessageDto implements Serializable {
     private UUID statementId;
     private String address;
     private Theme theme;

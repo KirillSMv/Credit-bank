@@ -7,8 +7,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.ClientResponse;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
-import ru.development.Dossier.ErrorHandler.ErrorProcessingRequest;
-import ru.development.Dossier.ErrorHandler.LoanRefusalException;
+import ru.development.Dossier.error_handler.ErrorProcessingRequest;
+import ru.development.Dossier.error_handler.LoanRefusalException;
 
 @Component
 @RequiredArgsConstructor
@@ -19,10 +19,9 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public void send(String statementId) {
+        log.debug(String.format("Отправляется запрос на url %s", dealMSProperties.getDealServerUrl() + dealMSProperties.getUpdateLoanStatementUrl()));
         webClient.put()
-                .uri(uriBuilder -> uriBuilder
-                        .path(dealMSProperties.getUpdateLoanStatementUrl())
-                        .build(statementId))
+                .uri(dealMSProperties.getUpdateLoanStatementUrl(), statementId)
                 .retrieve()
                 .onStatus(HttpStatusCode::isError,
                         this::processResponse)
