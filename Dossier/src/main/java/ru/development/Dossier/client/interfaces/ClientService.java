@@ -1,6 +1,4 @@
-package ru.development.Dossier.client;
-
-import java.util.UUID;
+package ru.development.Dossier.client.interfaces;
 
 public interface ClientService {
     void send(String statementId);

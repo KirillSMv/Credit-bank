@@ -2,38 +2,33 @@ package ru.development.Dossier.kafka.listeners;
 
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.stereotype.Component;
-import ru.development.Dossier.client.ClientService;
+import org.springframework.stereotype.Service;
+import ru.development.Dossier.client.interfaces.ClientService;
 import ru.development.Dossier.mail_service.MailProperties;
-import ru.development.Dossier.mail_service.MailService;
+import ru.development.Dossier.mail_service.interfaces.MailService;
 import ru.development.Dossier.model.EmailMessageDto;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-@Component
+@Service
 @RequiredArgsConstructor
+@Slf4j
 public class KafkaListeners {
     private final ClientService clientService;
     private final MailService mailService;
     private final MailProperties mailProperties;
     private String regex = "http\\S*";
     private Pattern pattern = Pattern.compile(regex);
-    String htmlWithPostForm = "<html>" +
-            "<body>" +
-            "<p>%s</p>" +
-            "<form action=" + "'%s'" + " method='POST'>" +
-            "<input type='submit' value='Ваша ссылка'>" +
-            "</form>" +
-            "</body>" +
-            "</html>";
 
     @KafkaListener(
             topics = "${kafka.finish-registration-topic}",
             groupId = "dossier-consumer"
     )
     void listenFinishRegistrationTopic(EmailMessageDto message) {
+        log.debug("Получено сообщение, тема письма: {}, id заявки: {}", message.getTheme(), message.getStatementId());
         mailService.send(message.getAddress(), message.getText(), mailProperties.getFinishRegistrationSubjectLine());
     }
 
@@ -42,15 +37,15 @@ public class KafkaListeners {
             groupId = "dossier-consumer"
     )
     void listenCreateDocumentsTopic(EmailMessageDto message) throws MessagingException {
-        System.out.println("create-documents received" + message);
-
+        log.debug("Получено сообщение, тема письма: {}, id заявки: {}", message.getTheme(), message.getStatementId());
         Matcher matcher = pattern.matcher(message.getText());
         String text = String.join(" ", message.getText().split(regex));
         if (matcher.find()) {
             String url = matcher.group();
-            String personalizedHtml = String.format(htmlWithPostForm, text, url);
+            String personalizedHtml = String.format(mailProperties.getHtmlWithPostForm(), text, url);
             mailService.sendHtml(message.getAddress(), personalizedHtml, mailProperties.getFinishRegistrationSubjectLine());
         } else {
+            log.warn("в теле сообщения не найдено ссылки, выброшено исключение");
             throw new RuntimeException("Пожалуйста, попробуйте отправить запрос позднее");
         }
     }
@@ -60,16 +55,16 @@ public class KafkaListeners {
             groupId = "dossier-consumer"
     )
     void listenSendDocumentsTopic(EmailMessageDto message) throws MessagingException {
+        log.debug("Получено сообщение, тема письма: {}, id заявки: {}", message.getTheme(), message.getStatementId());
         clientService.send(String.valueOf(message.getStatementId()));
-        System.out.println("send-documents received" + message);
-
         Matcher matcher = pattern.matcher(message.getText());
         String text = String.join(" ", message.getText().split(regex));
         if (matcher.find()) {
             String url = matcher.group();
-            String personalizedHtml = String.format(htmlWithPostForm, text, url);
+            String personalizedHtml = String.format(mailProperties.getHtmlWithPostForm(), text, url);
             mailService.sendHtml(message.getAddress(), personalizedHtml, mailProperties.getSendDocumentsSubjectLine());
         } else {
+            log.warn("В теле сообщения не найдено ссылки, выброшено исключение");
             throw new RuntimeException("Пожалуйста, попробуйте отправить запрос позднее");
         }
     }
@@ -79,24 +74,15 @@ public class KafkaListeners {
             groupId = "dossier-consumer"
     )
     void listenSendSesTopic(EmailMessageDto message) throws MessagingException {
-        System.out.println("send-ses received" + message);
-
+        log.debug("Получено сообщение, тема письма: {}, id заявки: {}", message.getTheme(), message.getStatementId());
         Matcher matcher = pattern.matcher(message.getText());
         String text = String.join(" ", message.getText().split(regex));
         if (matcher.find()) {
             String url = matcher.group();
-            String htmlPostWithCode = "<html>" +
-                    "<body>" +
-                    "<p>" + text + "</p>" +
-                    "<form action=" + "'" + url + "'" + " method='POST'>" +
-                    "<label for='name'>Ses-код:</label><br>" +
-                    "<input type='text' id='name' name='code' required><br><br>" +
-                    "<button type='submit'>Отправить код</button>" +
-                    "</form>" +
-                    "</body>" +
-                    "</html>";
-            mailService.sendHtml(message.getAddress(), htmlPostWithCode, mailProperties.getSendSesCodeSubjectLine());
+            String urlPostWithCode = String.format(mailProperties.getHtmlPostWithCode(), text, url);
+            mailService.sendHtml(message.getAddress(), urlPostWithCode, mailProperties.getSendSesCodeSubjectLine());
         } else {
+            log.warn("В теле сообщения не найдено ссылки, выброшено исключение");
             throw new RuntimeException("Пожалуйста, попробуйте отправить запрос позднее");
         }
     }
@@ -106,7 +92,7 @@ public class KafkaListeners {
             groupId = "dossier-consumer"
     )
     void listenCreditIssuedTopic(EmailMessageDto message) {
-        System.out.println("credit-issued received" + message);
+        log.debug("Получено сообщение, тема письма: {}, id заявки: {}", message.getTheme(), message.getStatementId());
         mailService.send(message.getAddress(), message.getText(), mailProperties.getCreditIssuedSubjectLine());
     }
 
@@ -115,7 +101,7 @@ public class KafkaListeners {
             groupId = "dossier-consumer"
     )
     void listenStatementDeniedTopic(EmailMessageDto message) {
-        System.out.println("statement-denied received" + message);
+        log.debug("Получено сообщение, тема письма: {}, id заявки: {}", message.getTheme(), message.getStatementId());
         mailService.send(message.getAddress(), message.getText(), mailProperties.getStatementDeniedSubjectLine());
     }
 }
