@@ -1,4 +1,4 @@
-package ru.development.gateway;
+package ru.development.gateway.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
