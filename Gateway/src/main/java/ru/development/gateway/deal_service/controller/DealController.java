@@ -4,11 +4,18 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.development.gateway.deal_service.client.DealClient;
+import ru.development.gateway.model.Statement;
 import ru.development.gateway.model.dto.FinishRegistrationRequestDto;
+
+import java.util.List;
 
 @RestController
 @Slf4j
@@ -47,4 +54,22 @@ public class DealController {
         log.info("Получен запрос: метод=POST, URI=/document/{statementId}/sign/code, переменная пути {}", statementId);
         dealClient.processSesCode(statementId, code);
     }
+
+
+    @GetMapping("/admin/statement/{statementId}")
+    @Operation(summary = "запрос на получение заявки по id")
+    public ResponseEntity<Statement> getStatementById(@PathVariable(name = "statementId") String statementId) {
+        log.info("Получен запрос: метод=POST, URI=/admin/statement/{statementId}, переменная пути {}", statementId);
+        return new ResponseEntity<>(dealClient.getStatementById(statementId), HttpStatus.OK);
+    }
+
+    @GetMapping("/admin/statement")
+    @Operation(summary = "запрос на получение постраничного списка заявок")
+    public ResponseEntity<List<Statement>> getStatements(
+            @RequestParam(value = "offset", defaultValue = "0") @Min(value = 0) Integer offset,
+            @RequestParam(value = "size", defaultValue = "10") @Min(value = 1) @Max(value = 10) Integer size) {
+        log.info("Получен запрос: метод=POST, URI=/admin/statement, offset = {}, size = {}", offset, size);
+        return new ResponseEntity<>(dealClient.getStatements(offset, size), HttpStatus.OK);
+    }
 }
+

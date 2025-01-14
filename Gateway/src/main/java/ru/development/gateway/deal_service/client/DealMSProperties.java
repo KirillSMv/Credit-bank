@@ -15,4 +15,8 @@ public class DealMSProperties {
     private String updateStatementDocStatusUrl;
     private String signDocumentsUrl;
     private String processSesCodeUrl;
+    private String getStatementByIdUrl;
+    private String getStatementsUrl;
+
+
 }
