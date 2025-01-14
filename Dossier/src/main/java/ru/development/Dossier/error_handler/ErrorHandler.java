@@ -24,16 +24,13 @@ public class ErrorHandler {
     @ResponseStatus(value = HttpStatus.CONFLICT)
     public ErrorObject handle(LoanRefusalException loanRefusalException) {
         log.warn("ErrorProcessingRequest: ", loanRefusalException);
-        return new ErrorObject(HttpStatus.BAD_REQUEST.getReasonPhrase(), loanRefusalException.getMessage(), LocalDateTime.now());
+        return new ErrorObject(HttpStatus.CONFLICT.getReasonPhrase(), loanRefusalException.getMessage(), LocalDateTime.now());
     }
 
     @ExceptionHandler
     @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrorObject handle(WebClientResponseException webClientResponseException) {
         log.warn("WebClientResponseException: ", webClientResponseException);
-        return new ErrorObject(HttpStatus.BAD_REQUEST.getReasonPhrase(), webClientResponseException.getMessage(), LocalDateTime.now());
+        return new ErrorObject(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), webClientResponseException.getMessage(), LocalDateTime.now());
     }
-
-
-    //todo MessageConversionException
 }
