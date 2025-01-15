@@ -15,9 +15,9 @@ public class ErrorHandler {
 
     @ExceptionHandler
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-    public ErrorObject handle(ErrorProcessingRequest errorProcessingRequest) {
-        log.warn("ErrorProcessingRequest: ", errorProcessingRequest);
-        return new ErrorObject(HttpStatus.BAD_REQUEST.getReasonPhrase(), errorProcessingRequest.getMessage(), LocalDateTime.now());
+    public ErrorObject handle(ErrorProcessingRequestException errorProcessingRequestException) {
+        log.warn("ErrorProcessingRequest: ", errorProcessingRequestException);
+        return new ErrorObject(HttpStatus.BAD_REQUEST.getReasonPhrase(), errorProcessingRequestException.getMessage(), LocalDateTime.now());
     }
 
     @ExceptionHandler

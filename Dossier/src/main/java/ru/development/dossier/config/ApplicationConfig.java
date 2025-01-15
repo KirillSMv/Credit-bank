@@ -47,7 +47,7 @@ public class ApplicationConfig {
         properties.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         properties.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
         properties.put(JsonDeserializer.TRUSTED_PACKAGES, "*");
-        properties.put(JsonDeserializer.VALUE_DEFAULT_TYPE, EmailMessageDto.class.getName()); //"ru.development.Dossier.model.EmailMessageDto:ru.development.Dossier.model.EmailMessageDto");
+        properties.put(JsonDeserializer.VALUE_DEFAULT_TYPE, EmailMessageDto.class.getName());
         properties.put(JsonDeserializer.USE_TYPE_INFO_HEADERS, "false");
         properties.put(ConsumerConfig.CLIENT_ID_CONFIG, clientId);
         properties.put(ConsumerConfig.GROUP_ID_CONFIG, "groupDossier");

@@ -1,4 +1,4 @@
-package ru.development.dossier.kafka.listeners;
+package ru.development.dossier.kafka.consumer;
 
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,7 @@ import java.util.regex.Pattern;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class KafkaListeners {
+public class KafkaConsumer {
     private final ClientService clientService;
     private final MailService mailService;
     private final MailProperties mailProperties;
@@ -33,7 +33,7 @@ public class KafkaListeners {
             topics = "${kafka.finish-registration-topic}",
             groupId = "dossier-consumer"
     )
-    void listenFinishRegistrationTopic(EmailMessageDto message, Acknowledgment acknowledgment) {
+    void consumeFinishRegistrationTopic(EmailMessageDto message, Acknowledgment acknowledgment) {
         log.debug(LOGGING_MESSAGE_RECEIVED, message.getTheme(), message.getStatementId());
         mailService.send(message.getAddress(), message.getText(), mailProperties.getFinishRegistrationSubjectLine());
         log.debug(LOGGING_MESSAGE_PROCESSED);
@@ -44,7 +44,7 @@ public class KafkaListeners {
             topics = "${kafka.create-documents-topic}",
             groupId = "dossier-consumer"
     )
-    void listenCreateDocumentsTopic(EmailMessageDto message, Acknowledgment acknowledgment) throws MessagingException {
+    void consumeCreateDocumentsTopic(EmailMessageDto message, Acknowledgment acknowledgment) throws MessagingException {
         log.debug(LOGGING_MESSAGE_RECEIVED, message.getTheme(), message.getStatementId());
         Matcher matcher = pattern.matcher(message.getText());
         String text = String.join(" ", message.getText().split(regex));
@@ -65,7 +65,7 @@ public class KafkaListeners {
             topics = "${kafka.send-documents-topic}",
             groupId = "dossier-consumer"
     )
-    void listenSendDocumentsTopic(EmailMessageDto message, Acknowledgment acknowledgment) throws MessagingException {
+    void consumeSendDocumentsTopic(EmailMessageDto message, Acknowledgment acknowledgment) throws MessagingException {
         log.debug(LOGGING_MESSAGE_RECEIVED, message.getTheme(), message.getStatementId());
         clientService.send(String.valueOf(message.getStatementId()));
         Matcher matcher = pattern.matcher(message.getText());
@@ -86,7 +86,7 @@ public class KafkaListeners {
             topics = "${kafka.send-sesCode-topic}",
             groupId = "dossier-consumer"
     )
-    void listenSendSesTopic(EmailMessageDto message, Acknowledgment acknowledgment) throws MessagingException {
+    void consumeSendSesTopic(EmailMessageDto message, Acknowledgment acknowledgment) throws MessagingException {
         log.debug(LOGGING_MESSAGE_RECEIVED, message.getTheme(), message.getStatementId());
         Matcher matcher = pattern.matcher(message.getText());
         String text = String.join(" ", message.getText().split(regex));
@@ -106,7 +106,7 @@ public class KafkaListeners {
             topics = "${kafka.credit-issued-topic}",
             groupId = "dossier-consumer"
     )
-    void listenCreditIssuedTopic(EmailMessageDto message, Acknowledgment acknowledgment) {
+    void consumeCreditIssuedTopic(EmailMessageDto message, Acknowledgment acknowledgment) {
         log.debug(LOGGING_MESSAGE_RECEIVED, message.getTheme(), message.getStatementId());
         mailService.send(message.getAddress(), message.getText(), mailProperties.getCreditIssuedSubjectLine());
         log.debug(LOGGING_MESSAGE_PROCESSED);
@@ -117,7 +117,7 @@ public class KafkaListeners {
             topics = "${kafka.statement-denied-topic}",
             groupId = "dossier-consumer"
     )
-    void listenStatementDeniedTopic(EmailMessageDto message, Acknowledgment acknowledgment) {
+    void consumeStatementDeniedTopic(EmailMessageDto message, Acknowledgment acknowledgment) {
         log.debug(LOGGING_MESSAGE_RECEIVED, message.getTheme(), message.getStatementId());
         mailService.send(message.getAddress(), message.getText(), mailProperties.getStatementDeniedSubjectLine());
         log.debug(LOGGING_MESSAGE_PROCESSED);

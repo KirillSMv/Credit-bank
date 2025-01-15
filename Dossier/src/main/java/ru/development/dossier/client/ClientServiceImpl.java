@@ -8,7 +8,7 @@ import org.springframework.web.reactive.function.client.ClientResponse;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 import ru.development.dossier.client.interfaces.ClientService;
-import ru.development.dossier.error_handler.ErrorProcessingRequest;
+import ru.development.dossier.error_handler.ErrorProcessingRequestException;
 import ru.development.dossier.error_handler.LoanRefusalException;
 
 @Component
@@ -36,7 +36,7 @@ public class ClientServiceImpl implements ClientService {
             case 400 -> clientResponse.bodyToMono(String.class)
                     .flatMap(errorBody -> {
                         log.debug("Выброшено исключение сервером - {}", errorBody);
-                        return Mono.error(new ErrorProcessingRequest(errorBody));
+                        return Mono.error(new ErrorProcessingRequestException(errorBody));
                     });
             case 409 -> clientResponse.bodyToMono(String.class)
                     .flatMap(errorBody -> {
