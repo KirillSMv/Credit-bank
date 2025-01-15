@@ -20,7 +20,7 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public void send(String statementId) {
-        log.debug("Отправляется запрос на url: {} {}", dealMSProperties.getDealServerUrl(), dealMSProperties.getUpdateLoanStatementUrl());
+        log.debug("Отправляется запрос на url: {}{}", dealMSProperties.getDealServerUrl(), dealMSProperties.getUpdateLoanStatementUrl());
         webClient.put()
                 .uri(dealMSProperties.getUpdateLoanStatementUrl(), statementId)
                 .retrieve()
