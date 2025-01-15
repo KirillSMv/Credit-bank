@@ -98,7 +98,7 @@ public class DealServiceImpl implements DealService {
             statement.setStatus(ApplicationStatus.CC_DENIED);
             updateStatusHistory(statement, ApplicationStatus.CC_DENIED);
             statementRepository.flush();
-            dataSender.send(messageProperties.getStatementDeniedMessage(), new EmailMessageDto(statement.getStatementIdUuid(),
+            dataSender.send(messageProperties.getStatementDeniedTopic(), new EmailMessageDto(statement.getStatementIdUuid(),
                     statement.getClient().getEmail(),
                     Theme.STATEMENT_DENIED, messageProperties.getStatementDeniedMessage()));
             throw new LoanRefusalException("К сожалению, вам отказано в кредите");

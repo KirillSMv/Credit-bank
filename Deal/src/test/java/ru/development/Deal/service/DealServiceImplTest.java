@@ -11,6 +11,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import ru.development.Deal.client.interfaces.DealClient;
 import ru.development.Deal.error_handler.LoanRefusalException;
 import ru.development.Deal.error_handler.NoObjectFoundException;
+import ru.development.Deal.kafka.KafkaTopicsMessagesProperties;
+import ru.development.Deal.kafka.interfaces.DataSender;
 import ru.development.Deal.model.*;
 import ru.development.Deal.model.dto.*;
 import ru.development.Deal.model.dto.mapper.CreditDtoMapper;
@@ -49,6 +51,10 @@ class DealServiceImplTest {
     private ClientRepository clientRepository;
     @Mock
     private DealClient dealClient;
+    @Mock
+    private KafkaTopicsMessagesProperties messageProperties;
+    @Mock
+    private DataSender dataSender;
     @InjectMocks
     private DealServiceImpl dealService;
 
@@ -65,7 +71,6 @@ class DealServiceImplTest {
     private static CreditDto creditDto;
     private static Credit credit;
     private static Statement statementWithCredit;
-
     private static Client client;
     @Captor
     private ArgumentCaptor<Statement> statementArgumentCaptor;
@@ -320,6 +325,10 @@ class DealServiceImplTest {
         when(statementRepository.findById(statementWithId.getStatementIdUuid())).thenReturn(Optional.of(statementWithId));
         when(offerDtoMapper.toOffer(loanOfferDto)).thenReturn(offer);
         when(statementRepository.save(statementWithId)).thenReturn(Optional.of(statementWithIdApproved).get());
+        when(messageProperties.getFinishRegistrationTopic()).thenReturn("finish-registration");
+        when(messageProperties.getFinishRegistrationMessage()).thenReturn("Ваша заявка предварительно одобрена, завершите оформление.");
+        doNothing().when(dataSender).send("finish-registration", new EmailMessageDto(statement.getStatementIdUuid(),
+                statement.getClient().getEmail(), Theme.FINISH_REGISTRATION, "Ваша заявка предварительно одобрена, завершите оформление."));
 
         dealService.selectOffer(loanOfferDto);
 
@@ -342,6 +351,13 @@ class DealServiceImplTest {
         when(dealClient.calculateCreditParameters(scoringDataDto)).thenReturn(creditDto);
         when(creditDtoMapper.toCredit(creditDto)).thenReturn(credit);
         when(statementRepository.save(statementWithCredit)).thenReturn(Optional.of(statementWithCredit).get());
+        when(messageProperties.getCreateDocumentsTopic()).thenReturn("create-documents");
+        when(messageProperties.getCreateDocumentsMessage()).thenReturn("Ваш кредит одобрен, пожалуйста, пройдите по ссылке ниже в письме.");
+        when(messageProperties.getUrlRequestDocuments()).thenReturn("http://localhost:9090/deal/document/%s/send");
+
+        doNothing().when(dataSender).send("create-documents", new EmailMessageDto(statement.getStatementIdUuid(),
+                statement.getClient().getEmail(), Theme.CREATE_DOCUMENTS, "Ваш кредит одобрен, пожалуйста, пройдите по ссылке ниже в письме." +
+                String.format("http://localhost:9090/deal/document/%s/send", "c51cfb6f-39bf-4b9b-a57e-5ea8ebaf5f22")));
 
         dealService.finalizeLoanParameters(finishRegistrationRequestDto, "c51cfb6f-39bf-4b9b-a57e-5ea8ebaf5f22");
 
