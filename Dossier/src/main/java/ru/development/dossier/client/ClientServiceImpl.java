@@ -1,4 +1,4 @@
-package ru.development.Dossier.client;
+package ru.development.dossier.client;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -7,9 +7,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.ClientResponse;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
-import ru.development.Dossier.client.interfaces.ClientService;
-import ru.development.Dossier.error_handler.ErrorProcessingRequest;
-import ru.development.Dossier.error_handler.LoanRefusalException;
+import ru.development.dossier.client.interfaces.ClientService;
+import ru.development.dossier.error_handler.ErrorProcessingRequest;
+import ru.development.dossier.error_handler.LoanRefusalException;
 
 @Component
 @RequiredArgsConstructor
@@ -20,7 +20,7 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public void send(String statementId) {
-        log.debug(String.format("Отправляется запрос на url: %s", dealMSProperties.getDealServerUrl() + dealMSProperties.getUpdateLoanStatementUrl()));
+        log.debug("Отправляется запрос на url: {} {}", dealMSProperties.getDealServerUrl(), dealMSProperties.getUpdateLoanStatementUrl());
         webClient.put()
                 .uri(dealMSProperties.getUpdateLoanStatementUrl(), statementId)
                 .retrieve()

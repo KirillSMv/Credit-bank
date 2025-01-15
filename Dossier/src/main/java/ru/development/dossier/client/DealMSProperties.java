@@ -1,4 +1,4 @@
-package ru.development.Dossier.client;
+package ru.development.dossier.client;
 
 import lombok.Getter;
 import lombok.Setter;

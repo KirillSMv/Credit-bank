@@ -1,4 +1,4 @@
-package ru.development.Dossier.model;
+package ru.development.dossier.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

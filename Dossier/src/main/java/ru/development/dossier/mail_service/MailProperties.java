@@ -1,4 +1,4 @@
-package ru.development.Dossier.mail_service;
+package ru.development.dossier.mail_service;
 
 import lombok.Getter;
 import lombok.Setter;

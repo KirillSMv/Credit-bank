@@ -1,4 +1,4 @@
-package ru.development.Dossier;
+package ru.development.dossier.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -14,11 +14,12 @@ import org.springframework.kafka.config.KafkaListenerContainerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
+import org.springframework.kafka.listener.ContainerProperties;
 import org.springframework.kafka.support.JacksonUtils;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 import org.springframework.web.reactive.function.client.WebClient;
-import ru.development.Dossier.client.DealMSProperties;
-import ru.development.Dossier.model.EmailMessageDto;
+import ru.development.dossier.client.DealMSProperties;
+import ru.development.dossier.model.EmailMessageDto;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -51,7 +52,9 @@ public class ApplicationConfig {
         properties.put(ConsumerConfig.CLIENT_ID_CONFIG, clientId);
         properties.put(ConsumerConfig.GROUP_ID_CONFIG, "groupDossier");
         properties.put(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, 500);
+        properties.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, false);
         properties.put(ConsumerConfig.MAX_POLL_INTERVAL_MS_CONFIG, 600_000);
+        properties.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
 
         var kafkaConsumerFactory = new DefaultKafkaConsumerFactory<String, EmailMessageDto>(properties);
         kafkaConsumerFactory.setValueDeserializer(new JsonDeserializer<>(objectMapper));
@@ -63,6 +66,7 @@ public class ApplicationConfig {
             ConsumerFactory<String, EmailMessageDto> consumerFactory) {
         var factory = new ConcurrentKafkaListenerContainerFactory<String, EmailMessageDto>();
         factory.setConsumerFactory(consumerFactory);
+        factory.getContainerProperties().setAckMode(ContainerProperties.AckMode.MANUAL_IMMEDIATE);
         return factory;
     }
 

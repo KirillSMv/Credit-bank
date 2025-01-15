@@ -1,4 +1,4 @@
-package ru.development.Dossier.error_handler;
+package ru.development.dossier.error_handler;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -33,4 +33,19 @@ public class ErrorHandler {
         log.warn("WebClientResponseException: ", webClientResponseException);
         return new ErrorObject(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), webClientResponseException.getMessage(), LocalDateTime.now());
     }
+
+    @ExceptionHandler
+    @ResponseStatus(value = HttpStatus.NOT_FOUND)
+    public ErrorObject handle(RequestProcessingException webClientResponseException) {
+        log.warn("RequestProcessingException: ", webClientResponseException);
+        return new ErrorObject(HttpStatus.NOT_FOUND.getReasonPhrase(), webClientResponseException.getMessage(), LocalDateTime.now());
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
+    public ErrorObject handle(Exception exception) {
+        log.warn("Exception: ", exception);
+        return new ErrorObject(HttpStatus.NOT_FOUND.getReasonPhrase(), exception.getMessage(), LocalDateTime.now());
+    }
+
 }

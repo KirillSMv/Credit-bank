@@ -1,4 +1,4 @@
-package ru.development.Dossier.model;
+package ru.development.dossier.model;
 
 public enum Theme {
     FINISH_REGISTRATION,

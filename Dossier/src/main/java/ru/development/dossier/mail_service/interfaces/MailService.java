@@ -1,4 +1,4 @@
-package ru.development.Dossier.mail_service.interfaces;
+package ru.development.dossier.mail_service.interfaces;
 
 import jakarta.mail.MessagingException;
 

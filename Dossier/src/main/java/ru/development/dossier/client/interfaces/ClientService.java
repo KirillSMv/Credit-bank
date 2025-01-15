@@ -1,4 +1,4 @@
-package ru.development.Dossier.client.interfaces;
+package ru.development.dossier.client.interfaces;
 
 public interface ClientService {
     void send(String statementId);

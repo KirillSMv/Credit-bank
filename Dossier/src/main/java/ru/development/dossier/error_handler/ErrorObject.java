@@ -1,4 +1,4 @@
-package ru.development.Dossier.error_handler;
+package ru.development.dossier.error_handler;
 
 import lombok.AllArgsConstructor;
 

@@ -1,4 +1,4 @@
-package ru.development.Dossier;
+package ru.development.dossier;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
