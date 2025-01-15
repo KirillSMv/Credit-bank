@@ -1,0 +1,351 @@
+openapi: 3.0.3
+info:
+  title: Кредитный калькулятор OpenAPI спецификация
+  version: 0.0.1
+servers:
+  - url: http://localhost:8080/
+    description: Calculator server
+paths:
+  /calculator/offers:
+    post:
+      summary: Расчёт возможных условий кредита
+      tags:
+        - Credit
+      operationId: calculateCreditConditions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoanStatementRequestFullDto"
+      responses:
+        '200':
+          description: Успешный ответ со списком LoanOfferDto
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LoanOfferDtos"
+        'default':
+          description: Ошибка
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /calculator/calc:
+    post:
+      summary: Расчёт параметров кредита
+      tags:
+        - Credit
+      operationId: calculateCreditParameters
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ScoringDataDto"
+      responses:
+        '200':
+          description: Успешный ответ с объектом CreditDto
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreditDto"
+        'default':
+          description: Ошибка
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+components:
+  schemas:
+    LoanStatementRequestFullDto:
+      type: object
+      required:
+        - statementId
+        - amount
+        - term
+        - firstName
+        - lastName
+        - middleName
+        - birthdate
+        - email
+        - passportSeries
+        - passportNumber
+      properties:
+        statementId:
+          type: string
+          example: "9970fcbf-31ba-4193-a1d6-0a57d2a71624"
+        amount:
+          type: number
+          example: 500000
+        term:
+          type: number
+          example: 12
+        firstName:
+          type: string
+          example: "Shatkov"
+        lastName:
+          type: string
+          example: "Levin"
+        middleName:
+          type: string
+          example: "Ilya"
+        birthdate:
+          type: string
+          example: "1996-07-12"
+        email:
+          type: string
+          example: "ilya551@yandex.ru"
+        passportSeries:
+          type: string
+          example: "1234"
+        passportNumber:
+          type: string
+          example: "111222"
+
+    LoanOfferDto:
+      type: object
+      required:
+        - statementId
+        - requestedAmount
+        - totalAmount
+        - term
+        - monthlyPayment
+        - rate
+        - isInsuranceEnabled
+        - isSalaryClient
+      properties:
+        statementId:
+          type: string
+          example: "9970fcbf-31ba-4193-a1d6-0a57d2a71624"
+        requestedAmount:
+          type: number
+          example: 500000
+        totalAmount:
+          type: number
+          example: 600000
+        term:
+          type: number
+          example: 12
+        monthlyPayment:
+          type: number
+          example: 40000
+        rate:
+          type: number
+          example: 10
+        isInsuranceEnabled:
+          type: boolean
+          example: true
+        isSalaryClient:
+          type: boolean
+          example: true
+
+    LoanOfferDtos:
+      type: array
+      items:
+        $ref: "#/components/schemas/LoanOfferDto"
+    Error:
+      type: object
+      required:
+        - status
+        - message
+        - localDateTime
+      properties:
+        status:
+          type: string
+          example: "BAD REQUEST"
+        message:
+          type: string
+          example: "Проверьте правильность указанных данных"
+        localDateTime:
+          type: string
+          example: 2024-11-29 01:10:35
+
+    ScoringDataDto:
+      type: object
+      required:
+        - amount
+        - term
+        - firstName
+        - lastName
+        - middleName
+        - gender
+        - employment
+        - birthdate
+        - passportSeries
+        - passportNumber
+        - passportIssueDate
+        - passportIssueBranch
+        - dependentAmount
+        - maritalStatus
+        - isInsuranceEnabled
+        - isSalaryClient
+      properties:
+        amount:
+          type: number
+          example: 500000
+        term:
+          type: number
+          example: 12
+        firstName:
+          type: string
+          example: "Shatkov"
+        lastName:
+          type: string
+          example: "Levin"
+        middleName:
+          type: string
+          example: "Ilya"
+        gender:
+          type: string
+          enum:
+            - MALE
+            - FEMALE
+            - NOTBINARY
+        employment:
+          $ref: '#/components/schemas/EmploymentDto'
+        birthdate:
+          type: string
+          example: "1990-07-12"
+        passportSeries:
+          type: string
+          example: "1234"
+        passportNumber:
+          type: string
+          example: "111222"
+        passportIssueDate:
+          type: string
+          example: "2010-07-12"
+        passportIssueBranch:
+          type: string
+          example: "MVD2020"
+        dependentAmount:
+          type: number
+          example: 0
+        accountNumber:
+          type: number
+        maritalStatus:
+          type: string
+          enum:
+            - MARRIED
+            - DIVORCED
+            - SINGLE
+        isInsuranceEnabled:
+          type: boolean
+          example: false
+        isSalaryClient:
+          type: boolean
+          example: false
+
+
+    EmploymentDto:
+      type: object
+      required:
+        - employerINN
+        - employmentStatus
+        - salary
+        - positionType
+        - workExperienceTotal
+        - workExperienceCurrent
+      properties:
+        employerINN:
+          type: string
+          example: "1234509876"
+        employmentStatus:
+          type: string
+          enum:
+            - UNEMPLOYED
+            - SELFEMPLOYED
+            - BUSINESSOWNER
+            - EMPLOYED
+        salary:
+          type: number
+          example: 60000
+        positionType:
+          type: string
+          enum:
+            - MANAGERMIDDLELEVEL
+            - TOPMANAGER
+            - OTHER
+        workExperienceTotal:
+          type: number
+          example: 120
+        workExperienceCurrent:
+          type: number
+          example: 120
+
+    CreditDto:
+      type: object
+      required:
+        - amount
+        - term
+        - monthlyPayment
+        - rate
+        - psk
+        - paymentSchedule
+        - isInsuranceEnabled
+        - isSalaryClient
+      properties:
+        amount:
+          type: number
+          example: 500000
+        term:
+          type: number
+          example: 12
+        monthlyPayment:
+          type: number
+          example: 35000
+        rate:
+          type: number
+          example: 25
+        psk:
+          type: number
+          example: 30
+        paymentSchedule:
+          type: array
+          items:
+            $ref: '#/components/schemas/PaymentScheduleElementDto'
+        isInsuranceEnabled:
+          type: boolean
+          example: false
+        isSalaryClient:
+          type: boolean
+          example: false
+    
+    
+    PaymentScheduleElementDto:
+      type: object
+      required:
+        - number
+        - date
+        - totalPayment
+        - interestPayment
+        - debtPayment
+        - remainingDebt
+      properties:
+        number:
+          type: number
+          example: 1
+        date:
+          type: number
+          example: 2020.01.01
+        totalPayment:
+          type: number
+          example: 50000
+        interestPayment:
+          type: number
+          example: 20000
+        debtPayment:
+          type: number
+          example: 30000
+        remainingDebt:
+          type: number
+          example: 450000
+
+        
+        
+        
+        
+  
