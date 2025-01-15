@@ -7,12 +7,12 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.development.Deal.client.DealClient;
 import ru.development.Deal.error_handler.LoanRefusalException;
 import ru.development.Deal.error_handler.NoObjectFoundException;
+import ru.development.Deal.model.*;
 import ru.development.Deal.model.dto.*;
 import ru.development.Deal.model.dto.mapper.CreditDtoMapper;
 import ru.development.Deal.model.dto.mapper.LoanStatementRequestMapper;
 import ru.development.Deal.model.dto.mapper.OfferDtoMapper;
 import ru.development.Deal.model.dto.mapper.ScoringDataDtoMapper;
-import ru.development.Deal.model.entity.*;
 import ru.development.Deal.model.enums.ApplicationStatus;
 import ru.development.Deal.model.enums.ChangeType;
 import ru.development.Deal.repository.ClientRepository;
@@ -103,11 +103,31 @@ public class DealServiceImpl implements DealService {
     private void checkIfClientAlreadyExists(LoanStatementRequestDto dto, Statement statement) {
         Optional<Client> clientByPassport = clientRepository.findByPassportSeriesAndPassportNumber(dto.getPassportSeries(),
                 dto.getPassportNumber());
+        log.debug("clientByPassport == null: {}", clientByPassport.isPresent());
         Optional<Client> clientByOtherData = clientRepository.findByFirstNameAndLastNameAndMiddleNameAndBirthdate(dto.getFirstName(),
                 dto.getLastName(), dto.getMiddleName(),
                 dto.getBirthdate());
-        clientByPassport.ifPresent(statement::setClient);
-        clientByOtherData.ifPresent(statement::setClient);
+        log.debug("clientByOtherData == null: {}", clientByOtherData.isPresent());
+        if (clientByPassport.isPresent()) {
+            Client existingClient = clientByPassport.get();
+            updateAllFields(dto, existingClient);
+            statement.setClient(existingClient);
+        }
+        if (clientByOtherData.isPresent()) {
+            Client existingClient = clientByOtherData.get();
+            updateAllFields(dto, existingClient);
+            statement.setClient(existingClient);
+        }
+    }
+
+    private void updateAllFields(LoanStatementRequestDto dto, Client existingClient) {
+        existingClient.setFirstName(dto.getFirstName());
+        existingClient.setLastName(dto.getLastName());
+        existingClient.setMiddleName(dto.getMiddleName());
+        existingClient.setBirthdate(dto.getBirthdate());
+        existingClient.setBirthdate(dto.getBirthdate());
+        existingClient.setEmail(dto.getEmail());
+        existingClient.setPassport(Passport.builder().series(dto.getPassportSeries()).number(dto.getPassportNumber()).build());
     }
 
     private void updateStatusHistory(Statement statement, ApplicationStatus applicationStatus) {

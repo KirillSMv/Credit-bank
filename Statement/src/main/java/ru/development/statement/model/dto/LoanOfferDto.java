@@ -1,13 +1,19 @@
-package ru.development.Deal.model.entity;
+package ru.development.statement.model.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
-public class Offer {
+public class LoanOfferDto {
+    private UUID statementIdUuid;
     private BigDecimal requestedAmount;
     private BigDecimal totalAmount;
     private Integer term;

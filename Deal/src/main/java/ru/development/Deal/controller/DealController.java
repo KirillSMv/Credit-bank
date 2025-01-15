@@ -26,7 +26,7 @@ public class DealController {
 
     @PostMapping("/statement")
     @Operation(summary = "обработка заявки на кредит")
-    public ResponseEntity<List<LoanOfferDto>> processLoanStatement(@Parameter(description = "заяка на кредит") @RequestBody @Valid LoanStatementRequestDto dto) {
+    public ResponseEntity<List<LoanOfferDto>> processLoanStatement(@Parameter(description = "заяка на кредит") @RequestBody LoanStatementRequestDto dto) {
         log.info("Получен запрос: метод=POST, URI=/deal/statement");
         return new ResponseEntity<>(dealService.processLoanStatement(dto), HttpStatus.OK);
     }

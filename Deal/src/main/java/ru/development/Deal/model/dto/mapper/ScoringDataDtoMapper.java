@@ -2,9 +2,9 @@ package ru.development.Deal.model.dto.mapper;
 
 
 import org.springframework.stereotype.Component;
+import ru.development.Deal.model.Statement;
 import ru.development.Deal.model.dto.FinishRegistrationRequestDto;
 import ru.development.Deal.model.dto.ScoringDataDto;
-import ru.development.Deal.model.entity.Statement;
 
 @Component
 public class ScoringDataDtoMapper {

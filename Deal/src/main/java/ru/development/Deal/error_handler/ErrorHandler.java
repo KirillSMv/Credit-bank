@@ -20,35 +20,35 @@ public class ErrorHandler {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorObject handle(MethodArgumentNotValidException exception) {
-        log.warn("Exception: {}", exception.getMessage());
+        log.warn("MethodArgumentNotValidException exception: {}", exception.getMessage());
         return new ErrorObject(HttpStatus.BAD_REQUEST.getReasonPhrase().toUpperCase(), exception.getFieldError().getDefaultMessage(), LocalDateTime.now().format(TIME_PATTERN));
     }
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.CONFLICT)
     public ErrorObject handle(SQLException e) {
-        log.error("Exception: {}", e.getMessage());
+        log.error("SQLException exception: {}", e.getMessage());
         return new ErrorObject(HttpStatus.CONFLICT.getReasonPhrase().toUpperCase(), e.getMessage(), LocalDateTime.now().format(TIME_PATTERN));
     }
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.FORBIDDEN)
     public ErrorObject handle(WebClientResponseException exception) {
-        log.warn("Exception: {}", exception.getMessage());
+        log.warn("WebClientResponseException exception: {}", exception.getMessage());
         return new ErrorObject(exception.getStatusText(), exception.getMessage(), LocalDateTime.now().format(TIME_PATTERN));
     }
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorObject handle(NoObjectFoundException exception) {
-        log.warn("Exception: {}", exception.getMessage());
+        log.warn("NoObjectFoundException exception: {}", exception.getMessage());
         return new ErrorObject(HttpStatus.BAD_REQUEST.getReasonPhrase().toUpperCase(), exception.getMessage(), LocalDateTime.now().format(TIME_PATTERN));
     }
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.CONFLICT)
     public ErrorObject handle(LoanRefusalException exception) {
-        log.warn("Exception: {}", exception.getMessage());
+        log.warn("LoanRefusalException exception: {}", exception.getMessage());
         return new ErrorObject(HttpStatus.CONFLICT.getReasonPhrase().toUpperCase(), exception.getMessage(), LocalDateTime.now().format(TIME_PATTERN));
     }
 }

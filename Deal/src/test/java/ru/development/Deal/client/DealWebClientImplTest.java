@@ -48,7 +48,7 @@ class DealWebClientImplTest {
     @Mock
     private ResponseSpec responseSpec;
     @InjectMocks
-    private DealWebClientImpl dealWebClientMock;
+    private DealWebClientImpl dealWebClient;
 
     private static ScoringDataDto scoringDataDto;
     private static CreditDto creditDto;
@@ -96,7 +96,7 @@ class DealWebClientImplTest {
     @Test
     void calculateOffersTest() {
         LoanStatementRequestDto dto = LoanStatementRequestDto.builder()
-                .amount(BigDecimal.valueOf(100000))
+                .amount(BigDecimal.valueOf(500000))
                 .term(12)
                 .firstName("Ilya")
                 .lastName("Shatkov")
@@ -132,7 +132,7 @@ class DealWebClientImplTest {
         when(calculatorMSProperties.getCalculateOffersUri()).thenReturn("/calculator/offers");
 
 
-        List<LoanOfferDto> resultList = dealWebClientMock.calculateOffers(dto);
+        List<LoanOfferDto> resultList = dealWebClient.calculateOffers(dto);
 
         assertEquals(expectedList, resultList);
     }
@@ -158,7 +158,7 @@ class DealWebClientImplTest {
         when(responseSpec.onStatus(any(), any())).thenThrow(LoanRefusalException.class);
         when(calculatorMSProperties.getCalculateOffersUri()).thenReturn("/calculator/offers");
 
-        assertThrows(LoanRefusalException.class, () -> dealWebClientMock.calculateOffers(dto));
+        assertThrows(LoanRefusalException.class, () -> dealWebClient.calculateOffers(dto));
     }
 
     @Test
@@ -172,7 +172,7 @@ class DealWebClientImplTest {
         when(responseSpec.bodyToMono(CreditDto.class)).thenReturn(Mono.just(creditDto));
         when(calculatorMSProperties.getCalculateCreditParametersUri()).thenReturn("/calculator/calc");
 
-        CreditDto resultCreditDto = dealWebClientMock.calculateCreditParameters(scoringDataDto);
+        CreditDto resultCreditDto = dealWebClient.calculateCreditParameters(scoringDataDto);
 
         assertEquals(creditDto, resultCreditDto);
     }
@@ -188,7 +188,7 @@ class DealWebClientImplTest {
         when(responseSpec.bodyToMono(CreditDto.class)).thenReturn(Mono.just(creditDto));
         when(calculatorMSProperties.getCalculateCreditParametersUri()).thenReturn("/calculator/calc");
 
-        assertThrows(LoanRefusalException.class, () -> dealWebClientMock.calculateCreditParameters(scoringDataDto));
+        assertThrows(LoanRefusalException.class, () -> dealWebClient.calculateCreditParameters(scoringDataDto));
     }
 
     private static List<PaymentScheduleElementDto> getPaymentSchedule() {

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="dd36410c-abfb-4c7a-acd9-c3e1b50d902a" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Deal/src/main/resources/db/changelog/db.changelog-master.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Deal/src/main/resources/db/changelog/v-1.0/01-changeset-credits-table.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Deal/src/main/resources/db/changelog/v-1.0/01-create-credits-table.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Deal/src/main/resources/db/changelog/v-1.0/01-drop-credits-table.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Deal/src/main/resources/db/changelog/v-1.0/02-changeset-employments-table.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Deal/src/main/resources/db/changelog/v-1.0/02-create-employments-table.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Deal/src/main/resources/db/changelog/v-1.0/02-drop-employments-table.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Deal/src/main/resources/db/changelog/v-1.0/03-changeset-passports-table.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Deal/src/main/resources/db/changelog/v-1.0/03-create-passports-table.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Deal/src/main/resources/db/changelog/v-1.0/03-drop-passports-table.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Deal/src/main/resources/db/changelog/v-1.0/04-changeset-clients-table.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Deal/src/main/resources/db/changelog/v-1.0/04-create-clients-table.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Deal/src/main/resources/db/changelog/v-1.0/04-drop-clients-table.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Deal/src/main/resources/db/changelog/v-1.0/05-changeset-statements-table.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Deal/src/main/resources/db/changelog/v-1.0/05-create-statements-table.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Deal/src/main/resources/db/changelog/v-1.0/05-drop-statements-table.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Deal/src/main/resources/db/changelog/v-1.0/db.changelog-v.1.0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Deal/src/main/resources/liquibase.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Statement/src/main/java/ru/development/statement/client/DealMSProperties.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Statement/src/main/java/ru/development/statement/client/StatementClient.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Statement/src/main/java/ru/development/statement/client/StatementWebClientConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Statement/src/main/java/ru/development/statement/client/StatementWebClientImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Statement/src/main/java/ru/development/statement/controller/StatementController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Statement/src/main/java/ru/development/statement/exceptions/ErrorHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Statement/src/main/java/ru/development/statement/exceptions/ErrorObject.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Statement/src/main/java/ru/development/statement/exceptions/ErrorProcessingRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Statement/src/main/java/ru/development/statement/exceptions/LoanRefusalException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Statement/src/main/java/ru/development/statement/model/dto/LoanOfferDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Statement/src/main/java/ru/development/statement/model/dto/LoanStatementRequestDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Statement/src/main/java/ru/development/statement/service/StatementService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Statement/src/main/java/ru/development/statement/service/StatementServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Statement/src/main/java/ru/development/statement/validation/custom_annotations/AgeValidation.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Statement/src/main/java/ru/development/statement/validation/custom_annotations/MiddleNameValidation.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Statement/src/main/java/ru/development/statement/validation/custom_constraint_validators/AgeValidator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Statement/src/main/java/ru/development/statement/validation/custom_constraint_validators/MiddleNameValidator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Statement/src/test/java/ru/development/statement/controller/StatementControllerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Calculator/src/main/java/ru/development/calculator/error_handler/ErrorHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/Calculator/src/main/java/ru/development/calculator/error_handler/ErrorHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Deal/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Deal/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Deal/src/main/java/ru/development/Deal/error_handler/ErrorHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/Deal/src/main/java/ru/development/Deal/error_handler/ErrorHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Deal/src/main/java/ru/development/Deal/model/dto/mapper/CreditDtoMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/Deal/src/main/java/ru/development/Deal/model/dto/mapper/CreditDtoMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Deal/src/main/java/ru/development/Deal/model/dto/mapper/LoanStatementRequestMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/Deal/src/main/java/ru/development/Deal/model/dto/mapper/LoanStatementRequestMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Deal/src/main/java/ru/development/Deal/model/dto/mapper/OfferDtoMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/Deal/src/main/java/ru/development/Deal/model/dto/mapper/OfferDtoMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Deal/src/main/java/ru/development/Deal/model/dto/mapper/ScoringDataDtoMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/Deal/src/main/java/ru/development/Deal/model/dto/mapper/ScoringDataDtoMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Deal/src/main/java/ru/development/Deal/model/entity/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/Deal/src/main/java/ru/development/Deal/model/Client.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Deal/src/main/java/ru/development/Deal/model/entity/Credit.java" beforeDir="false" afterPath="$PROJECT_DIR$/Deal/src/main/java/ru/development/Deal/model/Credit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Deal/src/main/java/ru/development/Deal/model/entity/Employment.java" beforeDir="false" afterPath="$PROJECT_DIR$/Deal/src/main/java/ru/development/Deal/model/Employment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Deal/src/main/java/ru/development/Deal/model/entity/Offer.java" beforeDir="false" afterPath="$PROJECT_DIR$/Deal/src/main/java/ru/development/Deal/model/Offer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Deal/src/main/java/ru/development/Deal/model/entity/Passport.java" beforeDir="false" afterPath="$PROJECT_DIR$/Deal/src/main/java/ru/development/Deal/model/Passport.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Deal/src/main/java/ru/development/Deal/model/entity/Statement.java" beforeDir="false" afterPath="$PROJECT_DIR$/Deal/src/main/java/ru/development/Deal/model/Statement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Deal/src/main/java/ru/development/Deal/model/entity/StatusHistory.java" beforeDir="false" afterPath="$PROJECT_DIR$/Deal/src/main/java/ru/development/Deal/model/StatusHistory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Deal/src/main/java/ru/development/Deal/repository/ClientRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/Deal/src/main/java/ru/development/Deal/repository/ClientRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Deal/src/main/java/ru/development/Deal/repository/CreditRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/Deal/src/main/java/ru/development/Deal/repository/CreditRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Deal/src/main/java/ru/development/Deal/repository/StatementRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/Deal/src/main/java/ru/development/Deal/repository/StatementRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Deal/src/main/java/ru/development/Deal/service/DealServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/Deal/src/main/java/ru/development/Deal/service/DealServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Deal/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/Deal/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Deal/src/test/java/ru/development/Deal/client/DealWebClientImplTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Deal/src/test/java/ru/development/Deal/client/DealWebClientImplTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Deal/src/test/java/ru/development/Deal/service/DealServiceImplTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Deal/src/test/java/ru/development/Deal/service/DealServiceImplTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Statement/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Statement/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Statement/src/main/java/ru/development/statement/StatementApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/Statement/src/main/java/ru/development/statement/StatementApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Statement/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/Statement/src/main/resources/application.properties" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2qMFkNXjRUxKOgS7IhP7s7kmfVt" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "last_opened_file_path": "C:/Users/kiril/Credit-bank"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="dd36410c-abfb-4c7a-acd9-c3e1b50d902a" name="Changes" comment="" />
+      <created>1734464679557</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1734464679557</updated>
+    </task>
+    <servers />
+  </component>
+</project>

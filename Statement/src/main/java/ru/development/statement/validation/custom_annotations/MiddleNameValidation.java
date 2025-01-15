@@ -1,9 +1,9 @@
-package ru.development.Deal.validation.custom_annotations;
+package ru.development.statement.validation.custom_annotations;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import ru.development.Deal.validation.custom_constraint_validators.MiddleNameValidator;
+import ru.development.statement.validation.custom_constraint_validators.MiddleNameValidator;
 
 import java.lang.annotation.*;
 
