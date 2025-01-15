@@ -167,6 +167,8 @@ public class DealServiceImpl implements DealService {
             credit.setCreditStatus(CreditStatus.ISSUED);
             statement.setCredit(credit);
             statementRepository.save(statement);
+            dataSender.send(messageProperties.getCreditIssuedTopic(), new EmailMessageDto(statement.getStatementIdUuid(), statement.getClient().getEmail(),
+                    Theme.CREDIT_ISSUED, messageProperties.getCreditIssuedMessage()));
         } else {
             statement.setStatus(ApplicationStatus.CLIENT_DENIED);
             updateStatusHistory(statement, ApplicationStatus.CLIENT_DENIED);
