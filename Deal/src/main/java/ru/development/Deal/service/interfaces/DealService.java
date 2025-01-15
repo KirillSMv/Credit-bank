@@ -1,4 +1,4 @@
-package ru.development.Deal.service;
+package ru.development.Deal.service.interfaces;
 
 import ru.development.Deal.model.dto.FinishRegistrationRequestDto;
 import ru.development.Deal.model.dto.LoanOfferDto;
@@ -12,4 +12,10 @@ public interface DealService {
     void selectOffer(LoanOfferDto dto);
 
     void finalizeLoanParameters(FinishRegistrationRequestDto dto, String statementId);
+
+    void sendDocuments(String statementId);
+
+    void signDocuments(String statementId);
+
+    void processSesCode(String statementId, String code);
 }

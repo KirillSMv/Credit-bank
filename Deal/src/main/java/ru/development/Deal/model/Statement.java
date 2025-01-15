@@ -38,7 +38,7 @@ public class Statement {
     private Offer appliedOffer;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime signDate;
-    private String ses; //todo типа данных
+    private String ses;
     @JdbcTypeCode(SqlTypes.JSON)
     private List<StatusHistory> statusHistory;
 }

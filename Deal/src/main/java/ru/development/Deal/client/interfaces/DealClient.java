@@ -1,4 +1,4 @@
-package ru.development.Deal.client;
+package ru.development.Deal.client.interfaces;
 
 import ru.development.Deal.model.dto.CreditDto;
 import ru.development.Deal.model.dto.LoanOfferDto;

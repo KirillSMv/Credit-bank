@@ -1,7 +1,9 @@
 package ru.development.Deal.model.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import ru.development.Deal.model.enums.Gender;
 import ru.development.Deal.model.enums.MaritalStatus;
 
@@ -10,6 +12,8 @@ import java.time.LocalDate;
 
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class ScoringDataDto {
     private BigDecimal amount;
     private Integer term;

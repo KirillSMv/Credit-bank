@@ -3,7 +3,6 @@ package ru.development.Deal.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -12,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.development.Deal.model.dto.FinishRegistrationRequestDto;
 import ru.development.Deal.model.dto.LoanOfferDto;
 import ru.development.Deal.model.dto.LoanStatementRequestDto;
-import ru.development.Deal.service.DealService;
+import ru.development.Deal.service.interfaces.DealService;
 
 import java.util.List;
 
@@ -41,9 +40,33 @@ public class DealController {
     @PostMapping("/calculate/{statementId}")
     @Operation(summary = "расчет и сохранение параметров кредита")
     public void finalizeLoanParameters(@Parameter(description = "данные для завершения обработки заявка на кредит")
-                                       @RequestBody @Valid FinishRegistrationRequestDto dto,
+                                       @RequestBody FinishRegistrationRequestDto dto,
                                        @PathVariable(name = "statementId") String statementId) {
         log.info("Получен запрос: метод=POST, URI=/deal/calculate/{statementId}, переменная пути {}", statementId);
         dealService.finalizeLoanParameters(dto, statementId);
     }
+
+    @PostMapping("/document/{statementId}/send")
+    @Operation(summary = "запрос на отправку документов")
+    public void sendDocuments(@PathVariable(name = "statementId") String statementId) {
+        log.info("Получен запрос: метод=POST, URI=/deal/document/{statementId}/send, переменная пути {}", statementId);
+        dealService.sendDocuments(statementId);
+
+    }
+
+    @PostMapping("/document/{statementId}/sign")
+    @Operation(summary = "запрос на подписание документов")
+    public void signDocuments(@PathVariable(name = "statementId") String statementId) {
+        log.info("Получен запрос: метод=POST, URI=/deal/document/{statementId}/sign, переменная пути {}", statementId);
+        dealService.signDocuments(statementId);
+    }
+
+    @PostMapping("/document/{statementId}/code")
+    @Operation(summary = "обработка кода от клиента для выдачи кредита")
+    public void processSesCode(@PathVariable(name = "statementId") String statementId, @RequestParam("code") String code) {
+        log.info("Получен запрос: метод=POST, URI=/deal/document/{statementId}/code, переменная пути {}", statementId);
+        dealService.processSesCode(statementId, code);
+    }
+
+
 }

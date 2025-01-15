@@ -45,7 +45,6 @@ public class StatementWebClientImpl implements StatementClient {
                         this::processResponse)
                 .bodyToMono(Void.class)
                 .block();
-
     }
 
     private Mono<? extends Throwable> processResponse(ClientResponse clientResponse) {

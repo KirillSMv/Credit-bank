@@ -8,7 +8,7 @@ import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import ru.development.Deal.client.DealClient;
+import ru.development.Deal.client.interfaces.DealClient;
 import ru.development.Deal.error_handler.LoanRefusalException;
 import ru.development.Deal.error_handler.NoObjectFoundException;
 import ru.development.Deal.model.*;
