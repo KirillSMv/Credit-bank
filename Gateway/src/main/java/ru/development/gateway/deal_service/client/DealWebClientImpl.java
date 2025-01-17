@@ -68,9 +68,12 @@ public class DealWebClientImpl implements DealClient {
     }
 
     @Override
-    public void processSesCode(String statementId, String code) {
+    public void processSesCode(String statementId, String code) { //todo
         webClient.post()
-                .uri(dealMSProperties.getProcessSesCodeUrl(), statementId)
+                .uri(uriBuilder -> uriBuilder
+                        .path(dealMSProperties.getProcessSesCodeUrl())
+                        .queryParam("code", code)
+                        .build(statementId))
                 .retrieve()
                 .onStatus(HttpStatusCode::isError,
                         this::processResponse)
@@ -79,9 +82,13 @@ public class DealWebClientImpl implements DealClient {
     }
 
     @Override
-    public List<Statement> getStatements(Integer offset, Integer size) {
+    public List<Statement> getStatements(Integer offset, Integer size) { //todo
         return webClient.get()
-                .uri(dealMSProperties.getGetStatementsUrl(), offset, size)
+                .uri(uriBuilder -> uriBuilder
+                        .path(dealMSProperties.getGetStatementsUrl())
+                        .queryParam("offset")
+                        .queryParam("size")
+                        .build(offset, size))
                 .retrieve()
                 .onStatus(HttpStatusCode::isError,
                         this::processResponse)
