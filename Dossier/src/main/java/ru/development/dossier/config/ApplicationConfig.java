@@ -54,7 +54,7 @@ public class ApplicationConfig {
         properties.put(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, 500);
         properties.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, false);
         properties.put(ConsumerConfig.MAX_POLL_INTERVAL_MS_CONFIG, 600_000);
-        properties.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
+        properties.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "latest");
 
         var kafkaConsumerFactory = new DefaultKafkaConsumerFactory<String, EmailMessageDto>(properties);
         kafkaConsumerFactory.setValueDeserializer(new JsonDeserializer<>(objectMapper));
