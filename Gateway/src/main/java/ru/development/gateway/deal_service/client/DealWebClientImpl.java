@@ -2,6 +2,7 @@ package ru.development.gateway.deal_service.client;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,9 @@ import java.util.List;
 public class DealWebClientImpl implements DealClient {
     private final WebClient webClient;
     private final DealMSProperties dealMSProperties;
+
+    @Value("${deal.serverUrl}")
+    private String serverUrl;
 
     @Override
     public void finalizeLoanParameters(FinishRegistrationRequestDto dto, String statementId) {
@@ -68,10 +72,10 @@ public class DealWebClientImpl implements DealClient {
     }
 
     @Override
-    public void processSesCode(String statementId, String code) { //todo
+    public void processSesCode(String statementId, String code) {
         webClient.post()
-                .uri(uriBuilder -> uriBuilder
-                        .path(dealMSProperties.getProcessSesCodeUrl())
+                .uri(serverUrl, uriBuilder -> uriBuilder
+                        .path("deal/document/{statementId}/code")
                         .queryParam("code", code)
                         .build(statementId))
                 .retrieve()
@@ -82,13 +86,13 @@ public class DealWebClientImpl implements DealClient {
     }
 
     @Override
-    public List<Statement> getStatements(Integer offset, Integer size) { //todo
+    public List<Statement> getStatements(Integer offset, Integer size) {
         return webClient.get()
-                .uri(uriBuilder -> uriBuilder
+                .uri(serverUrl, uriBuilder -> uriBuilder
                         .path(dealMSProperties.getGetStatementsUrl())
-                        .queryParam("offset")
-                        .queryParam("size")
-                        .build(offset, size))
+                        .queryParam("offset", offset)
+                        .queryParam("size", size)
+                        .build())
                 .retrieve()
                 .onStatus(HttpStatusCode::isError,
                         this::processResponse)

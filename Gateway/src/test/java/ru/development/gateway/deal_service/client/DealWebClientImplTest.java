@@ -51,6 +51,7 @@ class DealWebClientImplTest {
     @InjectMocks
     private DealWebClientImpl dealWebClient;
     private String statementId = "63e8f05d-6d53-49b0-a4f5-80939b31a0d8";
+    private String dealServerUrl = "http://localhost:9090";
     private static FinishRegistrationRequestDto finishRegistrationRequestDto;
     private static LoanStatementRequestDto loanStatementRequestDto;
     private static Client client;
@@ -182,10 +183,10 @@ class DealWebClientImplTest {
     }
 
     @Test
-    void processSesCodeTest() { //todo
+    void processSesCodeTest() {
         String code = "1423";
         when(webClient.post()).thenReturn(requestBodyUriSpec);
-        when(requestBodyUriSpec.uri((Function<UriBuilder, URI>) any())).thenReturn(requestBodySpec);
+        when(requestBodyUriSpec.uri(any(), (Function<UriBuilder, URI>) any())).thenReturn(requestBodySpec);
         when(requestBodySpec.retrieve()).thenReturn(responseSpec);
         when(responseSpec.onStatus(any(), any())).thenReturn(responseSpec);
         when(responseSpec.bodyToMono(Void.class)).thenReturn(Mono.empty());
@@ -225,7 +226,7 @@ class DealWebClientImplTest {
         List<Statement> expectedList = new ArrayList<>(List.of(statement));
 
         when(webClient.get()).thenReturn(requestHeadersUriSpec);
-        when(requestHeadersUriSpec.uri((Function<UriBuilder, URI>) any())).thenReturn(requestBodySpec);
+        when(requestHeadersUriSpec.uri(any(), (Function<UriBuilder, URI>) any())).thenReturn(requestBodySpec);
         when(requestBodySpec.retrieve()).thenReturn(responseSpec);
         when(responseSpec.onStatus(any(), any())).thenReturn(responseSpec);
         when(responseSpec.bodyToMono(new ParameterizedTypeReference<List<Statement>>() {
