@@ -28,10 +28,12 @@ public class KafkaTopicsMessagesProperties {
     private String sendSesCodeMessage = "В данном письме вы найдете ses-код и ссылку на подписание документов. Ваш ses-код: ";
     private String creditIssuedMessage = "Вам выдан кредит, спасибо!";
     private String statementDeniedMessage = "К сожалению, вам отказано в кредите.";
-    @Value("${url.request_documents}")
+    @Value("${deal_deal_server_url}")
+    private String dealServerUrl;
+    @Value("${deal_request_documents}")
     private String urlRequestDocuments;
-    @Value("${url.sign_documents}")
+    @Value("${deal_sign_documents}")
     private String urlSignDocuments;
-    @Value("${url.process_ses_code}")
+    @Value("${deal_process_ses_code}")
     private String urlProcessSesCode;
 }

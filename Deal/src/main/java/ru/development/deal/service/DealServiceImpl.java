@@ -110,7 +110,7 @@ public class DealServiceImpl implements DealService {
         statementRepository.save(statement);
         dataSender.send(messageProperties.getCreateDocumentsTopic(), new EmailMessageDto(statement.getStatementIdUuid(),
                 statement.getClient().getEmail(), Theme.CREATE_DOCUMENTS, messageProperties.getCreateDocumentsMessage() +
-                String.format(messageProperties.getUrlRequestDocuments(), statement.getStatementIdUuid())));
+                String.format(messageProperties.getDealServerUrl().concat(messageProperties.getUrlRequestDocuments()), statement.getStatementIdUuid())));
         log.debug("обновлена заявка с id {}, новый статус - {}, добавлен рассчитанный кредит с id {}", statement.getStatementIdUuid(),
                 statement.getStatus(), statement.getCredit().getCreditIdUuid());
     }
@@ -129,7 +129,7 @@ public class DealServiceImpl implements DealService {
         log.debug("обновлена заявка с id {}, новый статус - {}", statement.getStatementIdUuid(), statement.getStatus());
         dataSender.send(messageProperties.getSendDocumentsTopic(), new EmailMessageDto(statement.getStatementIdUuid(), statement.getClient().getEmail(),
                 Theme.SEND_DOCUMENTS, messageProperties.getSendDocumentsMessage() +
-                String.format(messageProperties.getUrlSignDocuments(), statement.getStatementIdUuid())));
+                String.format(messageProperties.getDealServerUrl().concat(messageProperties.getUrlSignDocuments()), statement.getStatementIdUuid())));
     }
 
 
@@ -146,7 +146,7 @@ public class DealServiceImpl implements DealService {
         log.debug("обновлена заявка с id {}, добавлен ses код", statement.getStatementIdUuid());
         dataSender.send(messageProperties.getSendSesCodeTopic(), new EmailMessageDto(statement.getStatementIdUuid(), statement.getClient().getEmail(),
                 Theme.SEND_SES_CODE, messageProperties.getSendSesCodeMessage() + statement.getSes() +
-                String.format(messageProperties.getUrlProcessSesCode(), statement.getStatementIdUuid())));
+                String.format(messageProperties.getDealServerUrl().concat(messageProperties.getUrlProcessSesCode()), statement.getStatementIdUuid())));
     }
 
     @Override
