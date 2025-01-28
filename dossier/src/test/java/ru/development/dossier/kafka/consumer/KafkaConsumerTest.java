@@ -1,5 +1,6 @@
 package ru.development.dossier.kafka.consumer;
 
+import jakarta.mail.MessagingException;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +14,12 @@ import ru.development.dossier.model.Theme;
 
 import java.util.UUID;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 @SpringBootTest(classes = {KafkaProducerTestConfig.class})
 @EmbeddedKafka(partitions = 1,
-        brokerProperties = { "listeners=PLAINTEXT://localhost:9092", "port=9092" })
+        brokerProperties = {"listeners=PLAINTEXT://localhost:9092", "port=9092"})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 class KafkaConsumerTest {
     @Autowired
@@ -35,36 +37,28 @@ class KafkaConsumerTest {
                 "FINISH_REGISTRATION");
         kafkaTemplate.send("finish-registration", dto);
 
+
         kafkaConsumer.consumeFinishRegistrationTopic(dto, acknowledgment);
         verify(acknowledgment, times(1)).acknowledge();
     }
+
     @Test
-    void consumeCreateDocumentsTopic() {
+    void consumeCreateDocumentsTopic() throws MessagingException {
         EmailMessageDto dto = new EmailMessageDto(UUID.fromString("63e8f05d-6d53-49b0-a4f5-80939b31a0d1"), "kirill.mamontov.test@gmail.com", Theme.CREATE_DOCUMENTS,
-                "CREATE_DOCUMENTS");
+                "CREATE_DOCUMENTS. http://localhost/deal/document/%s/send");
         kafkaTemplate.send("create-documents", dto);
 
-        kafkaConsumer.consumeFinishRegistrationTopic(dto, acknowledgment);
+        kafkaConsumer.consumeCreateDocumentsTopic(dto, acknowledgment);
         verify(acknowledgment, times(1)).acknowledge();
     }
 
     @Test
-    void consumeSendDocumentsTopic() {
-        EmailMessageDto dto = new EmailMessageDto(UUID.fromString("63e8f05d-6d53-49b0-a4f5-80939b31a0d1"), "kirill.mamontov.test@gmail.com", Theme.SEND_DOCUMENTS,
-                "SEND_DOCUMENTS");
-        kafkaTemplate.send("send-documents", dto);
-
-        kafkaConsumer.consumeFinishRegistrationTopic(dto, acknowledgment);
-        verify(acknowledgment, times(1)).acknowledge();
-    }
-
-    @Test
-    void consumeSendSesTopic() {
+    void consumeSendSesTopic() throws MessagingException {
         EmailMessageDto dto = new EmailMessageDto(UUID.fromString("63e8f05d-6d53-49b0-a4f5-80939b31a0d1"), "kirill.mamontov.test@gmail.com", Theme.SEND_SES_CODE,
-                "SEND_SES_CODE");
+                "SEND_SES_CODE. http://localhost/deal/document/%s/code");
         kafkaTemplate.send("send-ses", dto);
 
-        kafkaConsumer.consumeFinishRegistrationTopic(dto, acknowledgment);
+        kafkaConsumer.consumeSendSesTopic(dto, acknowledgment);
         verify(acknowledgment, times(1)).acknowledge();
     }
 
@@ -74,7 +68,7 @@ class KafkaConsumerTest {
                 "CREDIT_ISSUED");
         kafkaTemplate.send("credit-issued", dto);
 
-        kafkaConsumer.consumeFinishRegistrationTopic(dto, acknowledgment);
+        kafkaConsumer.consumeCreditIssuedTopic(dto, acknowledgment);
         verify(acknowledgment, times(1)).acknowledge();
     }
 
@@ -84,7 +78,7 @@ class KafkaConsumerTest {
                 "STATEMENT_DENIED");
         kafkaTemplate.send("statement-denied", dto);
 
-        kafkaConsumer.consumeFinishRegistrationTopic(dto, acknowledgment);
+        kafkaConsumer.consumeStatementDeniedTopic(dto, acknowledgment);
         verify(acknowledgment, times(1)).acknowledge();
     }
 }

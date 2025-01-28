@@ -46,7 +46,7 @@ public class ApplicationConfig {
         properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         properties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         properties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
-        properties.put(TYPE_MAPPINGS, "ru.development.Deal.model.dto.EmailMessageDto:ru.development.Deal.model.dto.EmailMessageDto");
+        properties.put(TYPE_MAPPINGS, "ru.development.deal.model.dto.EmailMessageDto:ru.development.deal.model.dto.EmailMessageDto");
         properties.put(ProducerConfig.CLIENT_ID_CONFIG, clientId);
         properties.put(ProducerConfig.ACKS_CONFIG, "1");
 

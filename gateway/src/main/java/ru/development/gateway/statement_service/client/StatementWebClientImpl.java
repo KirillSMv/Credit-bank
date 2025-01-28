@@ -24,6 +24,8 @@ public class StatementWebClientImpl implements StatementClient {
 
     @Override
     public List<LoanOfferDto> processLoanStatement(LoanStatementRequestDto dto) {
+        log.debug("вызов метода processLoanStatement, url: {}",
+                statementMSProperties.getServerUrl().concat(statementMSProperties.getProcessLoanStatementUrl()));
         return webClient.post()
                 .uri(statementMSProperties.getServerUrl().concat(statementMSProperties.getProcessLoanStatementUrl()))
                 .bodyValue(dto)
@@ -37,6 +39,8 @@ public class StatementWebClientImpl implements StatementClient {
 
     @Override
     public void selectOffer(LoanOfferDto dto) {
+        log.debug("вызов метода selectOffer, url: {}",
+                statementMSProperties.getServerUrl().concat(statementMSProperties.getSelectLoanOfferUrl()));
         webClient.post()
                 .uri(statementMSProperties.getServerUrl().concat(statementMSProperties.getSelectLoanOfferUrl()))
                 .bodyValue(dto)

@@ -10,7 +10,7 @@ import ru.development.deal.model.dto.EmailMessageDto;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class DataSenderImpl implements DataSender {
+public class KafkaDataSenderImpl implements DataSender {
 
     private final KafkaTemplate<String, EmailMessageDto> kafkaTemplate;
 

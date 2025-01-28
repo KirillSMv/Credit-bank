@@ -37,7 +37,7 @@ services:
       - '1010:1010'
     environment:
       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
-      DEAL-SERVER-URL: deal:9090
+      DEAL-SERVER-URL: http://deal:9090
     depends_on:
       - kafka
 
@@ -51,9 +51,9 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://deal-db:5432/deal
       SPRING_DATASOURCE_USERNAME: Kirill
       SPRING_DATASOURCE_PASSWORD: eravur
-      CALCULATOR_SERVER-URL: calculator:8080
+      CALCULATOR_SERVER-URL: http://calculator:8080
       DEAL_SERVER-URL: http://localhost:9090
-      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
     depends_on:
       - deal-db
       - kafka
@@ -77,8 +77,8 @@ services:
     ports:
       - '8079:8079'
     environment:
-        STATEMENT-SERVER-URL: statement:7070
-        DEAL-SERVER-URL: deal:9090
+        STATEMENT-SERVER-URL: http://statement:7070
+        DEAL-SERVER-URL: http://deal:9090
 
   statement:
     container_name: statement
@@ -87,7 +87,7 @@ services:
     ports:
       - '7070:7070'
     environment:
-      DEAL-SERVER-URL: deal:9090
+      DEAL-SERVER-URL: http://deal:9090
 
 
 

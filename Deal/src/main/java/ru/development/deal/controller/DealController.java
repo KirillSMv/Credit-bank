@@ -51,7 +51,6 @@ public class DealController {
     public void sendDocuments(@PathVariable(name = "statementId") String statementId) {
         log.info("Получен запрос: метод=POST, URI=/deal/document/{statementId}/send, переменная пути {}", statementId);
         dealService.sendDocuments(statementId);
-
     }
 
     @PostMapping("/document/{statementId}/sign")
