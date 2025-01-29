@@ -1,9 +1,6 @@
 name: CI Pipeline
 
 on:
-  push:
-    branches:
-      - 'feature/*'
   pull_request:
     branches:
       - develop
@@ -14,20 +11,22 @@ jobs:
 
     services:
       zookeeper:
-        image: wurstmeister/zookeeper
+        image: bitnami/zookeeper:latest
+        env:
+          ALLOW_ANONYMOUS_LOGIN: "yes"
         ports:
           - 2181:2181
 
       kafka:
-        image: wurstmeister/kafka
+        image: bitnami/kafka:latest
+        env:
+          KAFKA_CFG_ZOOKEEPER_CONNECT: "zookeeper:2181"
+          KAFKA_CFG_LISTENERS: "PLAINTEXT://:9092"
+          KAFKA_CFG_ADVERTISED_LISTENERS: "PLAINTEXT://localhost:9092"
+          KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE: "true"
+          ALLOW_PLAINTEXT_LISTENER: "yes"
         ports:
           - 9092:9092
-        env:
-          KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-          KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
-          KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
-          KAFKA_BROKER_ID: 1
-          KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
 
     steps:
       - name: Checkout code
@@ -39,6 +38,9 @@ jobs:
           java-version: 21
           distribution: 'temurin'
           cache: maven
+
+      - name: Wait for Kafka to start
+        run: sleep 15
 
       - name: Clean, test, verify
         run: mvn clean verify

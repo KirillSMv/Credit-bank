@@ -7,6 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.test.context.EmbeddedKafka;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.aot.DisabledInAotMode;
 import ru.development.deal.model.dto.EmailMessageDto;
 import ru.development.deal.model.enums.Theme;
 
