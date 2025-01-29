@@ -24,30 +24,22 @@ jobs:
             cache: maven
 
       - name: Clean, test, verify Calculator
-        working-directory: ./calculator
         run: mvn clean verify
 
-      - name: Clean, test, verify Deal
-        working-directory: ./deal
-        run: mvn clean verify
-
-      - name: Clean, test, verify Dossier
-        working-directory: ./dossier
-        run: mvn clean verify
-
-      - name: Clean, test, verify Gateway
-        working-directory: ./gateway
-        run: mvn clean verify
-
-      - name: Clean, test, package Statement
-        working-directory: ./statement
-        run: mvn clean verify
+  integration-test:
+    runs-on: ubuntu-latest
+    needs: build-and-test
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Start Docker-Compose
         run: docker-compose up -d --build
 
-      - name: Wait for services to be ready
-        run: sleep 30
+      - name: Wait for healthy state
+        run: |
+          echo "Waiting for services to be healthy..."
+          docker-compose wait
 
       - name: Stop Docker-Compose
         run: docker-compose down --volumes

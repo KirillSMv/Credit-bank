@@ -15,6 +15,11 @@ services:
       ZOOKEEPER_TICK_TIME: 2000
     ports:
       - '2181:2181'
+    healthcheck:
+      test: [ "CMD", "bash", "-c", "echo ruok | timeout 2 nc -w 2 localhost 2181 || exit 1" ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
 
   kafka:
     image: confluentinc/cp-kafka:7.5.0
@@ -28,6 +33,11 @@ services:
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:9091
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    healthcheck:
+      test: [ "CMD", "bash", "-c", "nc -z localhost 9092 || exit 1" ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
 
   dossier:
     container_name: dossier
@@ -69,6 +79,12 @@ services:
       POSTGRES_DB: deal
       POSTGRES_USER: Kirill
       POSTGRES_PASSWORD: eravur
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-U", "Kirill", "-d", "deal" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
 
   gateway:
     container_name: gateway
