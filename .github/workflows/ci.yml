@@ -11,6 +11,7 @@ on:
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
+
     services:
       zookeeper:
         image: wurstmeister/zookeeper
@@ -29,7 +30,6 @@ jobs:
           KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
 
     steps:
-      -
       - name: Checkout code
         uses: actions/checkout@v4
 
