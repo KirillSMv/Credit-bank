@@ -1,23 +1,20 @@
 package ru.development.deal.kafka;
 
+import lombok.RequiredArgsConstructor;
 import org.apache.kafka.clients.admin.NewTopic;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.config.TopicBuilder;
 
 @Configuration
+@RequiredArgsConstructor
 public class KafkaTopicsConfig {
     private final KafkaTopicsMessagesProperties properties;
-
-    @Autowired
-    public KafkaTopicsConfig(KafkaTopicsMessagesProperties properties) {
-        this.properties = properties;
-    }
 
     @Bean
     public NewTopic finishRegistrationTopic() {
         return TopicBuilder.name(properties.getFinishRegistrationTopic()).partitions(1).replicas(1).build();
+
     }
 
     @Bean
