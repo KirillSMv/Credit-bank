@@ -23,7 +23,7 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      - name: Clean, test, verify Calculator
+      - name: Clean, test, verify
         run: mvn clean verify
 
   integration-test:
