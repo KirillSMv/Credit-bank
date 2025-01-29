@@ -1,0 +1,53 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches:
+      - feature/*
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup JDK
+        uses: actions/setup-java@v4
+        with:
+            java-version: 21
+            distribution: 'temurin'
+            cache: maven
+
+      - name: Clean, test, verify Calculator
+        working-directory: ./calculator
+        run: mvn clean verify
+
+      - name: Clean, test, verify Deal
+        working-directory: ./deal
+        run: mvn clean verify
+
+      - name: Clean, test, verify Dossier
+        working-directory: ./dossier
+        run: mvn clean verify
+
+      - name: Clean, test, verify Gateway
+        working-directory: ./gateway
+        run: mvn clean verify
+
+      - name: Clean, test, package Statement
+        working-directory: ./statement
+        run: mvn clean verify
+
+      - name: Start Docker-Compose
+        run: docker-compose up -d --build
+
+      - name: Wait for services to be ready
+        run: sleep 30
+
+      - name: Stop Docker-Compose
+        run: docker-compose down --volumes
