@@ -23,7 +23,6 @@ class SalaryClientsManagerImplTest {
     void getRateForSalaryClientTest_whenRateIsPassed_RateDecreased() {
         Mockito.when(creditProperties.getRateDecreaseForSalaryClients()).thenReturn(BigDecimal.valueOf(1));
         BigDecimal expectedRate = BigDecimal.valueOf(19);
-
         BigDecimal result = salaryClientsManager.getRateForSalaryClient(BigDecimal.valueOf(20));
         Assertions.assertEquals(expectedRate, result);
     }
