@@ -3,7 +3,7 @@ name: CI Pipeline
 on:
   push:
     branches:
-      - feature/*
+      - 'feature**'
   pull_request:
     branches:
       - develop
@@ -19,9 +19,9 @@ jobs:
       - name: Setup JDK
         uses: actions/setup-java@v4
         with:
-            java-version: 21
-            distribution: 'temurin'
-            cache: maven
+          java-version: 21
+          distribution: 'temurin'
+          cache: maven
 
       - name: Clean, test, verify Calculator
         run: mvn clean verify
