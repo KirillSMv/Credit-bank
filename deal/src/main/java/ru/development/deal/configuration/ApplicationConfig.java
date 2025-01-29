@@ -26,14 +26,13 @@ import static org.springframework.kafka.support.serializer.JsonSerializer.TYPE_M
 @Configuration
 @RequiredArgsConstructor
 public class ApplicationConfig {
+    private final CalculatorMSProperties calculatorMSProperties;
 
     @Value("${spring.kafka.bootstrap-servers}")
     private String bootstrapServers;
 
     @Value("${spring.kafka.clientId}")
     private String clientId;
-
-    private final CalculatorMSProperties calculatorMSProperties;
 
     @Bean
     public ObjectMapper objectMapper() {
