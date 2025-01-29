@@ -1,9 +1,6 @@
 name: CI Pipeline
 
 on:
-  push:
-    branches:
-      - 'feature/*'
   pull_request:
     branches:
       - develop
@@ -11,6 +8,16 @@ on:
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_DB: test_db
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: Eravur
+        ports:
+          - 5432:5432
 
     steps:
       - name: Checkout code
@@ -23,23 +30,37 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
+      - name: Wait for Kafka to start
+        run: sleep 15
+
       - name: Clean, test, verify
         run: mvn clean verify
 
-  integration-test:
+      - name: Upload all JARs
+        uses: actions/upload-artifact@v4
+        with:
+          name: jar-files
+          path: "**/target/*.jar"
+
+
+  docker-compose-up:
     runs-on: ubuntu-latest
     needs: build-and-test
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Start Docker-Compose
-        run: docker-compose up -d --build
+      - name: Download JAR artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: jar-files
+          path: .
 
-      - name: Wait for healthy state
-        run: |
-          echo "Waiting for services to be healthy..."
-          docker-compose wait
+      - name: Remove old containers
+        run: docker compose down --rmi all --volumes --remove-orphans
+
+      - name: Start containers
+        run: docker compose up -d --build --detach --wait --wait-timeout 30
 
       - name: Stop Docker-Compose
-        run: docker-compose down --volumes
+        run: docker compose down --volumes
