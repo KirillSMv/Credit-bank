@@ -14,7 +14,6 @@ public class KafkaTopicsConfig {
     @Bean
     public NewTopic finishRegistrationTopic() {
         return TopicBuilder.name(properties.getFinishRegistrationTopic()).partitions(1).replicas(1).build();
-
     }
 
     @Bean
