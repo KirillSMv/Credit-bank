@@ -30,11 +30,8 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      - name: Wait for Kafka to start
-        run: sleep 15
-
       - name: Clean, test, verify
-        run: mvn clean verify
+        run: mvn clean verify -B
 
       - name: Upload all JARs
         uses: actions/upload-artifact@v4
@@ -57,10 +54,11 @@ jobs:
           path: .
 
       - name: Remove old containers
-        run: docker compose down --rmi all --volumes --remove-orphans
+        run: |
+          docker compose down --rmi all --volumes --remove-orphans || echo "No running containers"
 
       - name: Start containers
-        run: docker compose up -d --build --detach --wait --wait-timeout 30
+        run: docker compose up -d --build --wait --wait-timeout 30
 
       - name: Stop Docker-Compose
         run: docker compose down --volumes
