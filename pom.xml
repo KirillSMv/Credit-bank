@@ -26,6 +26,9 @@
     <properties>
         <java.version>21</java.version>
         <openapi.starter.version>2.6.0</openapi.starter.version>
+        <sonar.organization>eravur</sonar.organization>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+        <sonar.projectKey>Credit-bank</sonar.projectKey>
     </properties>
 
     <dependencies>
