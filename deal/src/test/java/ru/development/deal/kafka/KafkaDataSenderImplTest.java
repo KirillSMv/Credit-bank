@@ -16,7 +16,7 @@ import java.util.UUID;
 
 @SpringBootTest(classes = {KafkaConsumerTestConfig.class})
 @EmbeddedKafka(partitions = 1,
-        brokerProperties = {"listeners=PLAINTEXT://localhost:9092", "port=9092"}, topics = "finish-registration")
+        brokerProperties = {"listeners=PLAINTEXT://localhost:9093", "port=9093"}, topics = "finish-registration")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @TestPropertySource(locations = "classpath:application-test.properties")
 class KafkaDataSenderImplTest {

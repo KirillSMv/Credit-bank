@@ -7,7 +7,7 @@ import org.springframework.test.context.TestPropertySource;
 
 @SpringBootTest
 @TestPropertySource(locations = "classpath:application-test.properties")
-@EmbeddedKafka(partitions = 1, ports = {9092})
+@EmbeddedKafka(partitions = 1, ports = {9094})
 class DealApplicationTests {
 
     @Test
