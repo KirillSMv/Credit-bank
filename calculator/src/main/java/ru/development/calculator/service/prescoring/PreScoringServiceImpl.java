@@ -24,9 +24,8 @@ public class PreScoringServiceImpl implements PreScoringService {
     public void preScoring(LoanStatementRequestDto loanStatementRequestDto) {
         log.debug("preScoring заявки");
         ageValidation(loanStatementRequestDto.getBirthdate());
-        passportValidation(loanStatementRequestDto.getPassportSeries(), loanStatementRequestDto.getPassportNumber());
-        creditHistoryValidation(loanStatementRequestDto.getFirstName(), loanStatementRequestDto.getLastName(),
-                loanStatementRequestDto.getMiddleName());
+        passportValidation();
+        creditHistoryValidation();
     }
 
     private void ageValidation(LocalDate birthdate) {
@@ -39,13 +38,13 @@ public class PreScoringServiceImpl implements PreScoringService {
         }
     }
 
-    private void passportValidation(String passportSeries, String passportNumber) {
+    private void passportValidation() {
         //имитируем проверку клиента по базам данных федеральных служб
         System.out.println("Паспорт является действительным, гражданин не находится в розыске, " +
                 "в списке террористов и экстремистов, долгов по ФНС не числится");
     }
 
-    private void creditHistoryValidation(String firstName, String lastName, String middleName) {
+    private void creditHistoryValidation() {
         //имитируем проверку кредитной истории клиента
         System.out.println("Отрицательной кредитной истории не выявлено");
     }

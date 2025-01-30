@@ -8,22 +8,22 @@ public enum EmploymentStatus {
     BUSINESS_OWNER("Владелец бизнеса"),
     EMPLOYED("Трудоустроен");
 
-    private final String employmentStatus;
+    private final String status;
 
-    EmploymentStatus(String employmentStatus) {
-        this.employmentStatus = employmentStatus;
+    EmploymentStatus(String status) {
+        this.status = status;
     }
 
     public static Optional<EmploymentStatus> convert(String employmentStatus) {
         for (EmploymentStatus value : EmploymentStatus.values()) {
-            if (value.getEmploymentStatus().contains(employmentStatus)) {
+            if (value.getStatus().contains(employmentStatus)) {
                 return Optional.of(value);
             }
         }
         return Optional.empty();
     }
 
-    public String getEmploymentStatus() {
-        return employmentStatus;
+    public String getStatus() {
+        return status;
     }
 }

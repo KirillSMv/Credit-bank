@@ -41,22 +41,16 @@ public class EmploymentScoringEvaluatorImpl implements EmploymentScoringEvaluato
     }
 
     private BigDecimal evaluateEmploymentStatus(EmploymentStatus employmentStatus) {
-        BigDecimal score = BigDecimal.valueOf(100);
-        switch (employmentStatus) {
+        BigDecimal score;
+        score = switch (employmentStatus) {
             case UNEMPLOYED -> {
-                log.warn("метод evaluateEmploymentStatus, отказ по причине рабочего статуса: {}", UNEMPLOYED.getEmploymentStatus());
+                log.warn("метод evaluateEmploymentStatus, отказ по причине рабочего статуса: {}", UNEMPLOYED.getStatus());
                 throw new ScoringException("К сожалению, вам отказано в кредите");
             }
-            case SELF_EMPLOYED -> {
-                score = BigDecimal.valueOf(100).multiply(employmentScoreProperties.getSelfEmployedCoef());
-            }
-            case BUSINESS_OWNER -> {
-                score = BigDecimal.valueOf(100).multiply(employmentScoreProperties.getBusinessOwnerCoef());
-            }
-            case EMPLOYED -> {
-                score = BigDecimal.valueOf(100).multiply(employmentScoreProperties.getEmployedCoef());
-            }
-        }
+            case SELF_EMPLOYED -> BigDecimal.valueOf(100).multiply(employmentScoreProperties.getSelfEmployedCoef());
+            case BUSINESS_OWNER -> BigDecimal.valueOf(100).multiply(employmentScoreProperties.getBusinessOwnerCoef());
+            case EMPLOYED -> BigDecimal.valueOf(100).multiply(employmentScoreProperties.getEmployedCoef());
+        };
         log.debug("метод evaluateEmploymentStatus, subscore = {}", score);
         return score;
     }

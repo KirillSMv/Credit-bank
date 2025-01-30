@@ -54,12 +54,12 @@ public class LoanStatementRequestDto {
     private String email;
 
     @Size(min = 4, max = 4, message = "Серия паспорта должна содержать {min} цифры")
-    @Pattern(regexp = "[0-9]+", message = "Серия паспорта должна содержать 4 цифры")
+    @Pattern(regexp = "\\d+", message = "Серия паспорта должна содержать 4 цифры")
     @NotBlank(message = "Серия паспорта должна содержать 4 цифры")
     private String passportSeries;
 
     @Size(min = 6, max = 6, message = "Номер паспорта должен содержать {min} цифр")
-    @Pattern(regexp = "[0-9]+", message = "Номер паспорта должен содержать 6 цифр")
+    @Pattern(regexp = "\\d+", message = "Номер паспорта должен содержать 6 цифр")
     @NotBlank(message = "Номер паспорта должен содержать 6 цифр")
     private String passportNumber;
 }

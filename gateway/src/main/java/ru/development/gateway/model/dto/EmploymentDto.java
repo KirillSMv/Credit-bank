@@ -15,7 +15,7 @@ import java.math.BigDecimal;
 public class EmploymentDto {
     @Size(min = 10, max = 10, message = "Можно указать только 10 цифр латинского алфавита")
     @NotBlank(message = "Можно указать только 10 цифр латинского алфавита")
-    @Pattern(regexp = "[0-9]+", message = "Можно указать только 10 цифр латинского алфавита")
+    @Pattern(regexp = "\\d+", message = "Можно указать только 10 цифр латинского алфавита")
     private String employerINN;
 
     @NotNull

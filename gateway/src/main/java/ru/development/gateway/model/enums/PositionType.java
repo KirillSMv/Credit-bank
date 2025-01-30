@@ -9,22 +9,22 @@ public enum PositionType {
     WORKER("Наемный сотрудник"),
     OWNER("Владелец бизнеса");
 
-    final String positionType;
+    final String position;
 
-    PositionType(String positionType) {
-        this.positionType = positionType;
+    PositionType(String position) {
+        this.position = position;
     }
 
     public static Optional<PositionType> convert(String positionType) {
         for (PositionType value : PositionType.values()) {
-            if (value.getPositionType().contains(positionType)) {
+            if (value.getPosition().contains(positionType)) {
                 return Optional.of(value);
             }
         }
         return Optional.empty();
     }
 
-    public String getPositionType() {
-        return positionType;
+    public String getPosition() {
+        return position;
     }
 }
