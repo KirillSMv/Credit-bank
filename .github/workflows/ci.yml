@@ -39,7 +39,6 @@ jobs:
           name: jar-files
           path: "**/target/*.jar"
 
-
   docker-compose-up:
     runs-on: ubuntu-latest
     needs: build-and-test
