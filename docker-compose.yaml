@@ -8,6 +8,7 @@ services:
       - '8080:8080'
 
   zookeeper:
+    container_name: zookeeper
     image: confluentinc/cp-zookeeper:7.5.0
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
@@ -21,6 +22,7 @@ services:
       retries: 3
 
   kafka:
+    container_name: kafka
     image: confluentinc/cp-kafka:7.5.0
     depends_on:
       - zookeeper
