@@ -44,8 +44,9 @@ public class DealServiceImpl implements DealService {
     private final DataSender dataSender;
     private final KafkaTopicsMessagesProperties messageProperties;
 
-    private final String noStatementMessage = "Заявки с таким id не найдено, id = {}";
-    private final String noCreditStatementMessage = "Заявки на кредит с такими данными не найдено";
+    private final static String noStatementMessage = "Заявки с таким id не найдено, id = {}";
+    private final static String noCreditStatementMessage = "Заявки на кредит с такими данными не найдено";
+    private final static Random random = new Random();
 
     @Override
     @Transactional(noRollbackFor = LoanRefusalException.class)
@@ -224,11 +225,9 @@ public class DealServiceImpl implements DealService {
 
     private String generateSesCode() {
         StringBuilder stringBuilder = new StringBuilder();
-        Random random = new Random();
         for (int i = 0; i < 4; i++) {
             stringBuilder.append(random.nextInt(10));
         }
-
         return stringBuilder.toString();
     }
 }
