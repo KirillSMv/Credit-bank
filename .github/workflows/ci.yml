@@ -65,7 +65,7 @@ jobs:
       - name: Start containers
         run: docker compose up -d --build
 
-      - name: Wait for Kafka to start
+      - name: Wait for start
         run: sleep 15
 
       - name: Stop Docker-Compose
