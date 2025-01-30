@@ -21,12 +21,22 @@ jobs:
         image: bitnami/kafka:latest
         env:
           KAFKA_CFG_ZOOKEEPER_CONNECT: "zookeeper:2181"
-          KAFKA_CFG_LISTENERS: "PLAINTEXT://:9092"
-          KAFKA_CFG_ADVERTISED_LISTENERS: "PLAINTEXT://localhost:9092"
+          KAFKA_CFG_LISTENERS: "PLAINTEXT://:9093"
+          KAFKA_CFG_ADVERTISED_LISTENERS: "PLAINTEXT://localhost:9093"
           KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE: "true"
           ALLOW_PLAINTEXT_LISTENER: "yes"
         ports:
           - 9093:9093
+
+      services:
+        postgres:
+          image: postgres:15
+          env:
+            POSTGRES_DB: test_db
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: Eravur
+          ports:
+            - 5432:5432
 
     steps:
       - name: Checkout code
@@ -38,9 +48,6 @@ jobs:
           java-version: 21
           distribution: 'temurin'
           cache: maven
-
-      - name: Debug Kafka logs
-        run: docker ps -a && docker logs $(docker ps -aq --filter "name=kafka")
 
       - name: Wait for Kafka to start
         run: sleep 15
