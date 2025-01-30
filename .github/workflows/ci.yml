@@ -28,15 +28,14 @@ jobs:
         ports:
           - 9093:9093
 
-      services:
-        postgres:
-          image: postgres:15
-          env:
-            POSTGRES_DB: test_db
-            POSTGRES_USER: postgres
-            POSTGRES_PASSWORD: Eravur
-          ports:
-            - 5432:5432
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_DB: test_db
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: Eravur
+        ports:
+          - 5432:5432
 
     steps:
       - name: Checkout code
