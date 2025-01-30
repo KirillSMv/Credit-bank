@@ -8,6 +8,6 @@ class GatewayApplicationTests {
 
     @Test
     void contextLoads() {
+        //Загрузка контекста со всеми бинами
     }
-
 }

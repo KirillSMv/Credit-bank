@@ -32,7 +32,7 @@ public class PreScoringServiceImpl implements PreScoringService {
         boolean isYounger20Years = birthdate.isAfter(LocalDate.now().minusYears(clientMinYear));
         boolean isOlder65Years = birthdate.isBefore(LocalDate.now().minusYears(clientMaxYear));
         if (isYounger20Years || isOlder65Years) {
-            log.warn("В кредите отказано по причине несоответствния возраста, birthdate = {}, clientMinYear = {}, " +
+            log.warn("В кредите отказано по причине несоответствия возраста, birthdate = {}, clientMinYear = {}, " +
                     "clientMaxYear = {}", birthdate, clientMinYear, clientMaxYear);
             throw new PrescoringException("К сожалению, вам отказано в кредите");
         }

@@ -13,7 +13,6 @@ import java.time.LocalDate;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class PreScoringServiceImplTest {
-    private static LoanStatementRequestDto loanStatementRequestDto;
     private static LoanStatementRequestDto requestDtoWithLowAge;
     private static LoanStatementRequestDto requestDtoWithHighAge;
     private static PreScoringService preScoringService;
@@ -21,18 +20,6 @@ class PreScoringServiceImplTest {
     @BeforeAll
     static void get() {
         preScoringService = new PreScoringServiceImpl(20, 65);
-
-        loanStatementRequestDto = LoanStatementRequestDto.builder()
-                .amount(BigDecimal.valueOf(500000))
-                .term(12)
-                .firstName("Ilya")
-                .lastName("Shatkov")
-                .middleName("Levin")
-                .birthdate(LocalDate.of(1995, 12, 7))
-                .email("Ilya@yandex.ru")
-                .passportSeries("4040")
-                .passportNumber("111111")
-                .build();
 
         requestDtoWithLowAge = LoanStatementRequestDto.builder()
                 .amount(BigDecimal.valueOf(500000))

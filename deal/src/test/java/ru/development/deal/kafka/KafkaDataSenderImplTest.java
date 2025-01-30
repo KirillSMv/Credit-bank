@@ -26,8 +26,8 @@ class KafkaDataSenderImplTest {
 
     @KafkaListener(topics = "finish-registration", groupId = "test-group")
     public void listen(EmailMessageDto message) {
-        Assertions.assertEquals("FINISH_REGISTRATION", message.getTheme());
-        Assertions.assertEquals("63e8f05d-6d53-49b0-a4f5-80939b31a0d1", message.getStatementId());
+        Assertions.assertEquals("FINISH_REGISTRATION", message.getTheme().toString());
+        Assertions.assertEquals("63e8f05d-6d53-49b0-a4f5-80939b31a0d1", message.getStatementId().toString());
     }
 
     @Test

@@ -334,8 +334,8 @@ class DealServiceImplTest {
         dealService.selectOffer(loanOfferDto);
 
         verify(statementRepository).save(statementArgumentCaptor.capture());
-        Statement statementWithIdApproved = statementArgumentCaptor.getValue();
-        verify(statementRepository, times(1)).save(statementWithIdApproved);
+        Statement approvedWithId = statementArgumentCaptor.getValue();
+        verify(statementRepository, times(1)).save(approvedWithId);
     }
 
     @Test

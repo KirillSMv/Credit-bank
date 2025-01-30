@@ -19,7 +19,7 @@ import static org.mockito.Mockito.verify;
 
 @SpringBootTest(classes = {KafkaProducerTestConfig.class})
 @EmbeddedKafka(partitions = 1,
-        brokerProperties = {"listeners=PLAINTEXT://localhost:9092", "port=9092"})
+        brokerProperties = {"listeners=PLAINTEXT://localhost:9093", "port=9093"})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 class KafkaConsumerTest {
     @Autowired
@@ -32,7 +32,7 @@ class KafkaConsumerTest {
     Acknowledgment acknowledgment;
 
     @Test
-    void consumeFinishRegistrationTopic() throws InterruptedException {
+    void consumeFinishRegistrationTopic() {
         EmailMessageDto dto = new EmailMessageDto(UUID.fromString("63e8f05d-6d53-49b0-a4f5-80939b31a0d1"), "kirill.mamontov.test@gmail.com", Theme.FINISH_REGISTRATION,
                 "FINISH_REGISTRATION");
         kafkaTemplate.send("finish-registration", dto);

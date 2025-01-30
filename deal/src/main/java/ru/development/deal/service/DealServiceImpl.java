@@ -43,6 +43,9 @@ public class DealServiceImpl implements DealService {
     private final DataSender dataSender;
     private final KafkaTopicsMessagesProperties messageProperties;
 
+    private final String noStatementMessage = "Заявки с таким id не найдено, id = {}";
+    private final String noCreditStatementMessage = "Заявки на кредит с такими данными не найдено";
+
     @Override
     @Transactional(noRollbackFor = LoanRefusalException.class)
     public List<LoanOfferDto> processLoanStatement(LoanStatementRequestDto dto) {
@@ -67,8 +70,8 @@ public class DealServiceImpl implements DealService {
     @Override
     public void selectOffer(LoanOfferDto dto) {
         Statement statement = statementRepository.findById(dto.getStatementIdUuid()).orElseThrow(() -> {
-                    log.warn("Заявки с таким id не найдено, id = {}", dto.getStatementIdUuid());
-                    return new NoObjectFoundException("Заявки на кредит с такими данными не найдено");
+                    log.warn(noStatementMessage, dto.getStatementIdUuid());
+                    return new NoObjectFoundException(noCreditStatementMessage);
                 }
         );
         statement.setStatus(ApplicationStatus.APPROVED);
@@ -85,8 +88,8 @@ public class DealServiceImpl implements DealService {
     @Transactional(noRollbackFor = LoanRefusalException.class)
     public void finalizeLoanParameters(FinishRegistrationRequestDto dto, String statementId) {
         Statement statement = statementRepository.findById(UUID.fromString(statementId)).orElseThrow(() -> {
-                    log.warn("Заявки с таким id не найдено, id = {}", statementId);
-                    return new NoObjectFoundException("Заявки на кредит с такими данными не найдено");
+                    log.warn(noStatementMessage, statementId);
+                    return new NoObjectFoundException(noCreditStatementMessage);
                 }
         );
         ScoringDataDto scoringDataDto = scoringDataDtoMapper.toScoringDataDto(dto, statement);
@@ -101,7 +104,7 @@ public class DealServiceImpl implements DealService {
             dataSender.send(messageProperties.getStatementDeniedTopic(), new EmailMessageDto(statement.getStatementIdUuid(),
                     statement.getClient().getEmail(),
                     Theme.STATEMENT_DENIED, messageProperties.getStatementDeniedMessage()));
-            throw new LoanRefusalException("К сожалению, вам отказано в кредите");
+            throw new LoanRefusalException(noCreditStatementMessage);
         }
         Credit credit = creditDtoMapper.toCredit(creditDto);
         statement.setCredit(credit);
@@ -119,8 +122,8 @@ public class DealServiceImpl implements DealService {
     @Transactional
     public void sendDocuments(String statementId) {
         Statement statement = statementRepository.findById(UUID.fromString(statementId)).orElseThrow(() -> {
-                    log.warn("Заявки с таким id не найдено, id = {}", statementId);
-                    return new NoObjectFoundException("Заявки на кредит с такими данными не найдено");
+                    log.warn(noStatementMessage, statementId);
+                    return new NoObjectFoundException(noCreditStatementMessage);
                 }
         );
         statement.setStatus(ApplicationStatus.PREPARE_DOCUMENTS);
@@ -137,8 +140,8 @@ public class DealServiceImpl implements DealService {
     @Transactional
     public void signDocuments(String statementId) {
         Statement statement = statementRepository.findById(UUID.fromString(statementId)).orElseThrow(() -> {
-                    log.warn("Заявки с таким id не найдено, id = {}", statementId);
-                    return new NoObjectFoundException("Заявки на кредит с такими данными не найдено");
+                    log.warn(noStatementMessage, statementId);
+                    return new NoObjectFoundException(noCreditStatementMessage);
                 }
         );
         statement.setSes(generateSesCode());
@@ -153,8 +156,8 @@ public class DealServiceImpl implements DealService {
     @Transactional(noRollbackFor = LoanRefusalException.class)
     public void processSesCode(String statementId, String code) {
         Statement statement = statementRepository.findById(UUID.fromString(statementId)).orElseThrow(() -> {
-                    log.warn("Заявки с таким id не найдено, id = {}", statementId);
-                    return new NoObjectFoundException("Заявки на кредит с такими данными не найдено");
+                    log.warn(noStatementMessage, statementId);
+                    return new NoObjectFoundException(noCreditStatementMessage);
                 }
         );
         statement.setStatus(ApplicationStatus.DOCUMENT_SIGNED);

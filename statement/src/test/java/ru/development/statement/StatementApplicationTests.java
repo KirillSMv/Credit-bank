@@ -8,6 +8,6 @@ class StatementApplicationTests {
 
     @Test
     void contextLoads() {
+        //Загрузка контекста со всеми бинами
     }
-
 }

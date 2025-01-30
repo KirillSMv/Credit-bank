@@ -17,7 +17,6 @@ import ru.development.deal.model.dto.LoanOfferDto;
 import ru.development.deal.model.dto.LoanStatementRequestDto;
 import ru.development.deal.model.dto.ScoringDataDto;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -30,8 +29,7 @@ public class DealWebClientImpl implements DealClient {
     @Override
     public List<LoanOfferDto> calculateOffers(LoanStatementRequestDto dto) {
         log.debug("метод calculateOffers");
-        List<LoanOfferDto> resultList = new ArrayList<>();
-        resultList = webClient.post()
+        return webClient.post()
                 .uri(calculatorMSProperties.getCalculateOffersUri())
                 .body(BodyInserters.fromValue(dto))
                 .retrieve()
@@ -39,7 +37,6 @@ public class DealWebClientImpl implements DealClient {
                 .bodyToMono(new ParameterizedTypeReference<List<LoanOfferDto>>() {
                 })
                 .block();
-        return resultList;
     }
 
     @Override

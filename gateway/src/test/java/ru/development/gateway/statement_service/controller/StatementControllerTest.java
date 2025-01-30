@@ -38,7 +38,6 @@ class StatementControllerTest {
     private StatementController statementController;
     private static LoanStatementRequestDto loanStatementRequestDto;
     private static LoanOfferDto offerDto;
-    private static LoanOfferDto invalidLoanOfferDto;
 
 
     @BeforeAll
@@ -60,17 +59,6 @@ class StatementControllerTest {
                 .requestedAmount(BigDecimal.valueOf(500000))
                 .totalAmount(BigDecimal.valueOf(576104.40))
                 .term(12)
-                .monthlyPayment(BigDecimal.valueOf(48008.70))
-                .rate(BigDecimal.valueOf(27))
-                .isInsuranceEnabled(false)
-                .isSalaryClient(false)
-                .build();
-
-        invalidLoanOfferDto = LoanOfferDto.builder()
-                .statementIdUuid(UUID.fromString("c51cfb6f-39bf-4b9b-a57e-5ea8ebaf5f22"))
-                .requestedAmount(BigDecimal.valueOf(500000))
-                .totalAmount(BigDecimal.valueOf(576104.40))
-                .term(-1)
                 .monthlyPayment(BigDecimal.valueOf(48008.70))
                 .rate(BigDecimal.valueOf(27))
                 .isInsuranceEnabled(false)

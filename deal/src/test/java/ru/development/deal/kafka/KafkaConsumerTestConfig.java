@@ -12,7 +12,6 @@ import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
 import org.springframework.kafka.listener.ContainerProperties;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
-import org.springframework.kafka.test.context.EmbeddedKafka;
 import ru.development.deal.model.dto.EmailMessageDto;
 
 import java.util.HashMap;

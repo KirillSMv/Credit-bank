@@ -7,22 +7,22 @@ public enum Gender {
     FEMALE("Женщина"),
     NOTBINARY("Не бинарный");
 
-    private final String gender;
+    private final String str;
 
-    Gender(String gender) {
-        this.gender = gender;
+    Gender(String str) {
+        this.str = str;
     }
 
     public static Optional<Gender> convert(String gender) {
         for (Gender value : Gender.values()) {
-            if (value.getGender().equals(gender)) {
+            if (value.getStr().equals(gender)) {
                 return Optional.of(value);
             }
         }
         return Optional.empty();
     }
 
-    public String getGender() {
-        return gender;
+    public String getStr() {
+        return str;
     }
 }

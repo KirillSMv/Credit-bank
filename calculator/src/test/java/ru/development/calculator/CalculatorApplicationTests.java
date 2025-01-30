@@ -8,6 +8,6 @@ class CalculatorApplicationTests {
 
     @Test
     void contextLoads() {
+        //Загрузка контекста со всеми бинами
     }
-
 }

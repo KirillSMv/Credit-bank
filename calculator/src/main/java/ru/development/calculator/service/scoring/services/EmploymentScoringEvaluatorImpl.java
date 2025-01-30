@@ -59,24 +59,14 @@ public class EmploymentScoringEvaluatorImpl implements EmploymentScoringEvaluato
         if (positionType == null) {
             return BigDecimal.valueOf(0);
         }
-        BigDecimal score = BigDecimal.valueOf(100);
-        switch (positionType) {
-            case MID_MANAGER -> {
-                score = BigDecimal.valueOf(100).multiply(employmentScoreProperties.getManagerMiddleLevelCoef());
-            }
-            case TOP_MANAGER -> {
-                score = BigDecimal.valueOf(100).multiply(employmentScoreProperties.getTopManagerCoef());
-            }
-            case OTHER -> {
-                score = BigDecimal.valueOf(100).multiply(employmentScoreProperties.getOtherPositionCoef());
-            }
-            case OWNER -> {
-                score = BigDecimal.valueOf(100).multiply(employmentScoreProperties.getOwnerPositionCoef());
-            }
-            case WORKER -> {
-                score = BigDecimal.valueOf(100).multiply(employmentScoreProperties.getWorkerPositionCoef());
-            }
-        }
+        BigDecimal score;
+        score = switch (positionType) {
+            case MID_MANAGER -> BigDecimal.valueOf(100).multiply(employmentScoreProperties.getManagerMiddleLevelCoef());
+            case TOP_MANAGER -> BigDecimal.valueOf(100).multiply(employmentScoreProperties.getTopManagerCoef());
+            case OTHER -> BigDecimal.valueOf(100).multiply(employmentScoreProperties.getOtherPositionCoef());
+            case OWNER -> BigDecimal.valueOf(100).multiply(employmentScoreProperties.getOwnerPositionCoef());
+            case WORKER -> BigDecimal.valueOf(100).multiply(employmentScoreProperties.getWorkerPositionCoef());
+        };
         log.debug("метод evaluatePosition, subscore = {}", score);
         return score;
     }

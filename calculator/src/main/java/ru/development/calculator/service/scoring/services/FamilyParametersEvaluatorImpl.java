@@ -48,21 +48,14 @@ public class FamilyParametersEvaluatorImpl implements FamilyParametersEvaluator 
     }
 
     private BigDecimal evaluateMaritalStatus(MaritalStatus maritalStatus) {
-        BigDecimal score = BigDecimal.valueOf(100);
-        switch (maritalStatus) {
-            case MARRIED -> {
-                score = BigDecimal.valueOf(100).multiply(familyParametersScoreProperties.getMarriedStatusCoef());
-            }
-            case DIVORCED -> {
-                score = BigDecimal.valueOf(100).multiply(familyParametersScoreProperties.getDivorcedStatusCoef());
-            }
-            case SINGLE -> {
-                score = BigDecimal.valueOf(100).multiply(familyParametersScoreProperties.getSingleStatusCoef());
-            }
-            case WIDOW_WIDOWER -> {
-                score = BigDecimal.valueOf(100).multiply(familyParametersScoreProperties.getWidowStatusCoef());
-            }
-        }
+        BigDecimal score;
+        score = switch (maritalStatus) {
+            case MARRIED -> BigDecimal.valueOf(100).multiply(familyParametersScoreProperties.getMarriedStatusCoef());
+            case DIVORCED -> BigDecimal.valueOf(100).multiply(familyParametersScoreProperties.getDivorcedStatusCoef());
+            case SINGLE -> BigDecimal.valueOf(100).multiply(familyParametersScoreProperties.getSingleStatusCoef());
+            case WIDOW_WIDOWER ->
+                    BigDecimal.valueOf(100).multiply(familyParametersScoreProperties.getWidowStatusCoef());
+        };
         log.debug("метод evaluateMaritalStatus, subscore = {}", score);
         return score;
     }
