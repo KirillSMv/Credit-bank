@@ -32,7 +32,6 @@ public class EmploymentScoringEvaluatorImpl implements EmploymentScoringEvaluato
         BigDecimal employmentStatusScore = evaluateEmploymentStatus(employmentDto.getEmploymentStatus());
         BigDecimal positionScore = evaluatePosition(employmentDto.getPositionType());
         BigDecimal workExperienceScore = evaluateWorkExperience(employmentDto.getWorkExperienceTotal(), employmentDto.getWorkExperienceCurrent());
-        evaluateEmployer(employmentDto.getEmployerINN());
         score = employmentStatusScore.multiply(employmentScoreProperties.getEmploymentStatusSubscoreRatio())
                 .add((positionScore).multiply(employmentScoreProperties.getPositionSubscoreRatio()))
                 .add((workExperienceScore.multiply(employmentScoreProperties.getWorkExperienceSubscoreRatio())));
@@ -91,10 +90,4 @@ public class EmploymentScoringEvaluatorImpl implements EmploymentScoringEvaluato
         log.debug("метод evaluateWorkExperience, subscore = {}", score);
         return score;
     }
-
-    private void evaluateEmployer(String employerINN) {
-        //имитируем проверку работодателя по внешним базам
-        System.out.println("Работодатель с INN - " + employerINN + " существует");
-    }
-
 }

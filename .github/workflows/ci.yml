@@ -36,9 +36,9 @@ jobs:
       - name: Cache SonarQube packages
         uses: actions/cache@v4
         with:
-            path: ~/.sonar/cache
-            key: ${{ runner.os }}-sonar
-            restore-keys: ${{ runner.os }}-sonar
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
       - name: Cache Maven packages
         uses: actions/cache@v4
         with:
@@ -74,7 +74,7 @@ jobs:
           docker compose down --rmi all --volumes --remove-orphans || echo "No running containers"
 
       - name: Start containers
-        run: docker compose up -d --build --wait --wait-timeout 30
+        run: docker compose up -d --build --wait --wait-timeout 45
 
       - name: Stop Docker-Compose
         run: docker compose down --volumes

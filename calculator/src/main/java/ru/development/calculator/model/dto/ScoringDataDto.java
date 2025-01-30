@@ -1,17 +1,9 @@
 package ru.development.calculator.model.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.*;
 import lombok.Builder;
 import lombok.Data;
-import org.springframework.lang.Nullable;
 import ru.development.calculator.model.enums.Gender;
 import ru.development.calculator.model.enums.MaritalStatus;
-import ru.development.calculator.validation.custom_annotations.AccountNumberValidation;
-import ru.development.calculator.validation.custom_annotations.AgeValidation;
-import ru.development.calculator.validation.custom_annotations.MiddleNameValidation;
-import ru.development.calculator.validation.custom_annotations.PassportDateValidation;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

@@ -1,4 +1,3 @@
-
 services:
   calculator:
     container_name: calculator
@@ -94,8 +93,8 @@ services:
     ports:
       - '8079:8079'
     environment:
-        STATEMENT-SERVER-URL: http://statement:7070
-        DEAL-SERVER-URL: http://deal:9090
+      STATEMENT-SERVER-URL: http://statement:7070
+      DEAL-SERVER-URL: http://deal:9090
 
   statement:
     container_name: statement

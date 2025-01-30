@@ -23,7 +23,9 @@ class LoanFeasibilityAssessorImplTest {
     @Test
     void assessIfLoanFeasibleTest_whenLoanCannotBePaid_thenThrowScoringException() {
         Mockito.when(creditProperties.getMaxPercentOfSalaryForLoan()).thenReturn(BigDecimal.valueOf(50));
-        Assertions.assertThrows(ScoringException.class, () -> loanFeasibilityAssessor.assessIfLoanFeasible(BigDecimal.valueOf(25), BigDecimal.valueOf(200000),
-                BigDecimal.valueOf(30000), 6));
+        BigDecimal rate = BigDecimal.valueOf(25);
+        BigDecimal amount = BigDecimal.valueOf(200000);
+        BigDecimal salary = BigDecimal.valueOf(30000);
+        Assertions.assertThrows(ScoringException.class, () -> loanFeasibilityAssessor.assessIfLoanFeasible(rate, amount, salary, 6));
     }
 }

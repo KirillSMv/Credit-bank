@@ -38,24 +38,24 @@ public class CreditOffersServiceImpl implements CreditOffersService {
         return offers.stream().sorted(Comparator.comparing(LoanOfferDto::getRate).reversed()).toList();
     }
 
-    private LoanOfferDto getCreditOffer(boolean IsSalaryClient, boolean isInsuranceEnabled, LoanStatementRequestDto dto) {
+    private LoanOfferDto getCreditOffer(boolean isSalaryClient, boolean isInsuranceEnabled, LoanStatementRequestDto dto) {
         BigDecimal rate = getNormalRateForLoan();
         BigDecimal amount = dto.getAmount();
         int term = dto.getTerm();
 
-        if (IsSalaryClient) {
+        if (isSalaryClient) {
             rate = salaryClientsManager.getRateForSalaryClient(rate);
         }
         if (isInsuranceEnabled) {
             rate = insuranceManager.getRateWithInsurance(rate);
             amount = insuranceManager.getAmountWithInsurance(amount);
         }
-        log.debug("метод getCreditOffer(), IsSalaryClient ={}, isInsuranceEnabled = {}, rate = {}, amount = {}", IsSalaryClient, isInsuranceEnabled, rate, amount);
+        log.debug("метод getCreditOffer(), isSalaryClient ={}, isInsuranceEnabled = {}, rate = {}, amount = {}", isSalaryClient, isInsuranceEnabled, rate, amount);
         BigDecimal monthlyPayment = annuityLoanMonthlyPaymentCalculator.getMonthlyPayment(rate, amount, term)
                 .setScale(creditProperties.getFinalCalcAccuracy(), RoundingMode.HALF_UP);
         BigDecimal totalAmount = monthlyPayment.multiply(BigDecimal.valueOf(term)).setScale(creditProperties.getFinalCalcAccuracy(), RoundingMode.HALF_UP);
         log.debug("метод getCreditOffer(), rate = {}, totalAmount: {}", rate, totalAmount);
-        return new LoanOfferDto(dto.getAmount(), totalAmount, term, monthlyPayment, rate, isInsuranceEnabled, IsSalaryClient);
+        return new LoanOfferDto(dto.getAmount(), totalAmount, term, monthlyPayment, rate, isInsuranceEnabled, isSalaryClient);
     }
 
     private BigDecimal getNormalRateForLoan() {

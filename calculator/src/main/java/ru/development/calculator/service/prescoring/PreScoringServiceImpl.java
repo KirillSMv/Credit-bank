@@ -24,8 +24,6 @@ public class PreScoringServiceImpl implements PreScoringService {
     public void preScoring(LoanStatementRequestDto loanStatementRequestDto) {
         log.debug("preScoring заявки");
         ageValidation(loanStatementRequestDto.getBirthdate());
-        passportValidation();
-        creditHistoryValidation();
     }
 
     private void ageValidation(LocalDate birthdate) {
@@ -36,16 +34,5 @@ public class PreScoringServiceImpl implements PreScoringService {
                     "clientMaxYear = {}", birthdate, clientMinYear, clientMaxYear);
             throw new PrescoringException("К сожалению, вам отказано в кредите");
         }
-    }
-
-    private void passportValidation() {
-        //имитируем проверку клиента по базам данных федеральных служб
-        System.out.println("Паспорт является действительным, гражданин не находится в розыске, " +
-                "в списке террористов и экстремистов, долгов по ФНС не числится");
-    }
-
-    private void creditHistoryValidation() {
-        //имитируем проверку кредитной истории клиента
-        System.out.println("Отрицательной кредитной истории не выявлено");
     }
 }

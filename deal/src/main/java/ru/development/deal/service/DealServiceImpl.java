@@ -26,6 +26,7 @@ import ru.development.deal.service.interfaces.DealService;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 import java.util.UUID;
 
 @Service
@@ -223,9 +224,11 @@ public class DealServiceImpl implements DealService {
 
     private String generateSesCode() {
         StringBuilder stringBuilder = new StringBuilder();
+        Random random = new Random();
         for (int i = 0; i < 4; i++) {
-            stringBuilder.append((int) Math.floor(10 * Math.random()));
+            stringBuilder.append(random.nextInt(10));
         }
+
         return stringBuilder.toString();
     }
 }

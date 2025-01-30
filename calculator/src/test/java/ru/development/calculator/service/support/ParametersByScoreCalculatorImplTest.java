@@ -68,8 +68,8 @@ class ParametersByScoreCalculatorImplTest {
     void getRateAndAmountTest_whenScoreIsBelowClassTwo_thenThrowScoringException() {
         when(creditProperties.getFirstRatingClass()).thenReturn(300);
         when(creditProperties.getSecondRatingClass()).thenReturn(500);
-
-        Assertions.assertThrows(ScoringException.class, () -> parametersByScoreCalculator.getRateAndAmount(BigDecimal.valueOf(400), scoringDataDto));
+        BigDecimal value = BigDecimal.valueOf(400);
+        Assertions.assertThrows(ScoringException.class, () -> parametersByScoreCalculator.getRateAndAmount(value, scoringDataDto));
     }
 
     @Test

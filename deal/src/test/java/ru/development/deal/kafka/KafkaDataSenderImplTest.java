@@ -8,7 +8,6 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.test.context.EmbeddedKafka;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.aot.DisabledInAotMode;
 import ru.development.deal.model.dto.EmailMessageDto;
 import ru.development.deal.model.enums.Theme;
 
@@ -25,9 +24,8 @@ class KafkaDataSenderImplTest {
     private KafkaDataSenderImpl dataSender;
 
     @KafkaListener(topics = "finish-registration", groupId = "test-group")
-    public void listen(EmailMessageDto message) {
-        Assertions.assertEquals("FINISH_REGISTRATION", message.getTheme().toString());
-        Assertions.assertEquals("63e8f05d-6d53-49b0-a4f5-80939b31a0d1", message.getStatementId().toString());
+    public boolean listen(EmailMessageDto message) {
+        return "FINISH_REGISTRATION".equals(message.getTheme().toString()) && "63e8f05d-6d53-49b0-a4f5-80939b31a0d1".equals(message.getStatementId().toString());
     }
 
     @Test
@@ -35,5 +33,6 @@ class KafkaDataSenderImplTest {
         EmailMessageDto dto = new EmailMessageDto(UUID.fromString("63e8f05d-6d53-49b0-a4f5-80939b31a0d1"), "kirill.mamontov.test@gmail.com", Theme.FINISH_REGISTRATION,
                 "FINISH_REGISTRATION");
         dataSender.send("finish-registration", dto);
+        Assertions.assertTrue(listen(dto));
     }
 }

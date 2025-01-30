@@ -7,7 +7,7 @@ import ru.development.calculator.validation.custom_annotations.AccountNumberVali
 import java.util.regex.Pattern;
 
 public class AccountNumberValidator implements ConstraintValidator<AccountNumberValidation, String> {
-    private static final Pattern NUMBERS_CHECK = Pattern.compile("[0-9]+");
+    private static final Pattern NUMBERS_CHECK = Pattern.compile("\\d+");
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
