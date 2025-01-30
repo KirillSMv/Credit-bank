@@ -7,15 +7,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.reactive.function.client.ClientResponse;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 import ru.development.dossier.error_handler.ErrorProcessingRequestException;
 import ru.development.dossier.error_handler.LoanRefusalException;
-
-import java.util.function.Function;
-import java.util.function.Predicate;
 
 import static org.mockito.Mockito.*;
 import static org.springframework.web.reactive.function.client.WebClient.*;

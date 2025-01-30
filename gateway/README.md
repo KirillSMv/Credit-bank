@@ -1,11 +1,14 @@
 # Gateway Microservice
 
-The **Gateway** microservice is a core component of the bank loan processing application. It implements the **Gateway Pattern** to direct user requests to the appropriate backend services: **Deal** and **Statement**.
+The **Gateway** microservice is a core component of the bank loan processing application. It implements the **Gateway
+Pattern** to direct user requests to the appropriate backend services: **Deal** and **Statement**.
 
 ---
 
 ## Features
-- **Request Routing**: Routes incoming client requests to the appropriate backend service (Deal or Statement) based on the endpoint.
+
+- **Request Routing**: Routes incoming client requests to the appropriate backend service (Deal or Statement) based on
+  the endpoint.
 - **Error Handling**: Ensures robust error reporting and fallback mechanisms for downstream service issues.
 - **Security**: Validates requests before forwarding them to backend services.
 
