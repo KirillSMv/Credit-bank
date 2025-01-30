@@ -65,21 +65,5 @@ jobs:
       - name: Start containers
         run: docker compose up -d --build
 
-      - name: Wait for Zookeeper, Kafka, and deal-db to be healthy
-        run: |
-          for i in {1..20}; do
-            HEALTHY_COUNT=$(docker compose ps | grep -c "(healthy)")
-            if [ "$HEALTHY_COUNT" -ge 3 ]; then
-              echo "Zookeeper, Kafka, and deal-db are healthy!"
-              exit 0
-            fi
-            echo "Waiting for Zookeeper, Kafka, and deal-db..."
-            sleep 5
-          done
-          echo "Some services did not become healthy in time"
-          docker compose ps
-          docker compose logs zookeeper kafka deal-db
-          exit 1
-
       - name: Stop Docker-Compose
         run: docker compose down --volumes
