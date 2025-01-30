@@ -61,8 +61,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Start Docker-Compose
-        run: docker-compose up -d --build
+      - name: Start containers
+        run: docker compose up -d --build
 
       - name: Wait for healthy state
         run: |
@@ -70,4 +70,4 @@ jobs:
           docker-compose wait
 
       - name: Stop Docker-Compose
-        run: docker-compose down --volumes
+        run: docker compose down --volumes
