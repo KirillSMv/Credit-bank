@@ -106,7 +106,3 @@ services:
     environment:
       DEAL-SERVER-URL: http://deal:9090
 
-
-
-
-
