@@ -1,19 +1,22 @@
 # Credit-bank
 
-The **Credit Application** System is a microservices-based platform designed to facilitate credit application 
+The **Credit Application** is a microservices-based platform designed to facilitate credit application 
 processing, scoring, offer generation, and loan issuance. The system ensures an easy experience for users 
-applying for loans.
+applying for loans. 
+
+Loan statement request passes through the process of pre-scoring, scoring using custom FICO system, calculation of 
+loan parameters and finalization stage. At each critical step such as statement acceptance, loan approval/rejection, 
+initiating documents signing process and loan issuance client is receiving email messages with necessary information and proper instructions.
 
 ---
 ## Features
 
 - **Microservices architecture** for modular and scalable processing
-- **Request Routing**: Routes incoming client requests to the appropriate backend service (Deal or Statement) based on
-  the endpoint.
-- **Error Handling**: Ensures robust error reporting and fallback mechanisms for downstream service issues.
-- **Security**: Validates requests before forwarding them to backend services.
-- **Automatization**: automated pre-scoring and full credit assessment
-- **Email notifications**: at key stages of the loan process
+- **Request Routing**: Gateway microservice routes incoming client requests to the appropriate backend service
+- **Error Handling**: Ensured robust error reporting and fallback mechanisms for downstream service issues
+- **Accuracy**: Requests are validated  before forwarding them to backend services
+- **Automatization**: Automated pre-scoring and full credit assessment
+- **Email notifications**: at key stages of the loan statement processing
 
 ---
 ## Technologies Used
@@ -23,9 +26,12 @@ applying for loans.
 - **WebClient**: Client to perform HTTP requests to microservices.
 - **Maven**: Dependency management and build tool.
 - **OpenAPI (Swagger)**: API documentation and testing.
-- **PostgreSQL**: database
-- **Kafka**: message broker
-- **Docker**: platform for containerisation
+- **PostgreSQL**: Database.
+- **Liquibase**: Library for tracking, managing and applying database schema changes.
+- **Kafka**: Messages broker.
+- **Docker**: Platform for containerisation.
+- **Spring Data JPA**: ORM technology
+- **Swagger**: Tool for documenting APIs using the OpenAPI Specification.
 
 ---
 
