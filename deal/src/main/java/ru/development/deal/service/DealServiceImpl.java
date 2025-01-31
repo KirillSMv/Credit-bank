@@ -44,9 +44,9 @@ public class DealServiceImpl implements DealService {
     private final DataSender dataSender;
     private final KafkaTopicsMessagesProperties messageProperties;
 
-    private final static String noStatementMessage = "Заявки с таким id не найдено, id = {}";
-    private final static String noCreditStatementMessage = "Заявки на кредит с такими данными не найдено";
-    private final static Random random = new Random();
+    private static final String NO_STATEMENT_MESSAGE = "Заявки с таким id не найдено, id = {}";
+    private static final String NO_CREDIT_STATEMENT_MESSAGE = "Заявки на кредит с такими данными не найдено";
+    private static final Random RANDOM = new Random();
 
     @Override
     @Transactional(noRollbackFor = LoanRefusalException.class)
@@ -72,8 +72,8 @@ public class DealServiceImpl implements DealService {
     @Override
     public void selectOffer(LoanOfferDto dto) {
         Statement statement = statementRepository.findById(dto.getStatementIdUuid()).orElseThrow(() -> {
-                    log.warn(noStatementMessage, dto.getStatementIdUuid());
-                    return new NoObjectFoundException(noCreditStatementMessage);
+                    log.warn(NO_STATEMENT_MESSAGE, dto.getStatementIdUuid());
+                    return new NoObjectFoundException(NO_CREDIT_STATEMENT_MESSAGE);
                 }
         );
         statement.setStatus(ApplicationStatus.APPROVED);
@@ -90,8 +90,8 @@ public class DealServiceImpl implements DealService {
     @Transactional(noRollbackFor = LoanRefusalException.class)
     public void finalizeLoanParameters(FinishRegistrationRequestDto dto, String statementId) {
         Statement statement = statementRepository.findById(UUID.fromString(statementId)).orElseThrow(() -> {
-                    log.warn(noStatementMessage, statementId);
-                    return new NoObjectFoundException(noCreditStatementMessage);
+                    log.warn(NO_STATEMENT_MESSAGE, statementId);
+                    return new NoObjectFoundException(NO_CREDIT_STATEMENT_MESSAGE);
                 }
         );
         ScoringDataDto scoringDataDto = scoringDataDtoMapper.toScoringDataDto(dto, statement);
@@ -106,7 +106,7 @@ public class DealServiceImpl implements DealService {
             dataSender.send(messageProperties.getStatementDeniedTopic(), new EmailMessageDto(statement.getStatementIdUuid(),
                     statement.getClient().getEmail(),
                     Theme.STATEMENT_DENIED, messageProperties.getStatementDeniedMessage()));
-            throw new LoanRefusalException(noCreditStatementMessage);
+            throw new LoanRefusalException(NO_CREDIT_STATEMENT_MESSAGE);
         }
         Credit credit = creditDtoMapper.toCredit(creditDto);
         statement.setCredit(credit);
@@ -124,8 +124,8 @@ public class DealServiceImpl implements DealService {
     @Transactional
     public void sendDocuments(String statementId) {
         Statement statement = statementRepository.findById(UUID.fromString(statementId)).orElseThrow(() -> {
-                    log.warn(noStatementMessage, statementId);
-                    return new NoObjectFoundException(noCreditStatementMessage);
+                    log.warn(NO_STATEMENT_MESSAGE, statementId);
+                    return new NoObjectFoundException(NO_CREDIT_STATEMENT_MESSAGE);
                 }
         );
         statement.setStatus(ApplicationStatus.PREPARE_DOCUMENTS);
@@ -142,8 +142,8 @@ public class DealServiceImpl implements DealService {
     @Transactional
     public void signDocuments(String statementId) {
         Statement statement = statementRepository.findById(UUID.fromString(statementId)).orElseThrow(() -> {
-                    log.warn(noStatementMessage, statementId);
-                    return new NoObjectFoundException(noCreditStatementMessage);
+                    log.warn(NO_STATEMENT_MESSAGE, statementId);
+                    return new NoObjectFoundException(NO_CREDIT_STATEMENT_MESSAGE);
                 }
         );
         statement.setSes(generateSesCode());
@@ -158,8 +158,8 @@ public class DealServiceImpl implements DealService {
     @Transactional(noRollbackFor = LoanRefusalException.class)
     public void processSesCode(String statementId, String code) {
         Statement statement = statementRepository.findById(UUID.fromString(statementId)).orElseThrow(() -> {
-                    log.warn(noStatementMessage, statementId);
-                    return new NoObjectFoundException(noCreditStatementMessage);
+                    log.warn(NO_STATEMENT_MESSAGE, statementId);
+                    return new NoObjectFoundException(NO_CREDIT_STATEMENT_MESSAGE);
                 }
         );
         statement.setStatus(ApplicationStatus.DOCUMENT_SIGNED);
@@ -226,7 +226,7 @@ public class DealServiceImpl implements DealService {
     private String generateSesCode() {
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < 4; i++) {
-            stringBuilder.append(random.nextInt(10));
+            stringBuilder.append(RANDOM.nextInt(10));
         }
         return stringBuilder.toString();
     }
