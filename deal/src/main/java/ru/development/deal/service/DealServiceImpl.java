@@ -23,6 +23,7 @@ import ru.development.deal.repository.ClientRepository;
 import ru.development.deal.repository.StatementRepository;
 import ru.development.deal.service.interfaces.DealService;
 
+import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -46,7 +47,7 @@ public class DealServiceImpl implements DealService {
 
     private static final String NO_STATEMENT_MESSAGE = "Заявки с таким id не найдено, id = {}";
     private static final String NO_CREDIT_STATEMENT_MESSAGE = "Заявки на кредит с такими данными не найдено";
-    private static final Random RANDOM = new Random();
+    private static final SecureRandom SECURE_RANDOM = new SecureRandom();
 
     @Override
     @Transactional(noRollbackFor = LoanRefusalException.class)
@@ -226,7 +227,7 @@ public class DealServiceImpl implements DealService {
     private String generateSesCode() {
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < 4; i++) {
-            stringBuilder.append(RANDOM.nextInt(10));
+            stringBuilder.append(SECURE_RANDOM.nextInt(10));
         }
         return stringBuilder.toString();
     }
