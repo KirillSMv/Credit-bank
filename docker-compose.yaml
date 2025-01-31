@@ -1,0 +1,108 @@
+
+services:
+  calculator:
+    container_name: calculator
+    build:
+      context: ./calculator
+    ports:
+      - '8080:8080'
+
+  zookeeper:
+    container_name: zookeeper
+    image: confluentinc/cp-zookeeper:7.5.0
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - '2181:2181'
+    healthcheck:
+      test: [ "CMD", "bash", "-c", "echo ruok | timeout 2 nc -w 2 localhost 2181 || exit 1" ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  kafka:
+    container_name: kafka
+    image: confluentinc/cp-kafka:7.5.0
+    depends_on:
+      - zookeeper
+    ports:
+      - '9092:9092'
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:9091
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    healthcheck:
+      test: [ "CMD", "bash", "-c", "nc -z localhost 9092 || exit 1" ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  dossier:
+    container_name: dossier
+    build:
+      context: ./dossier
+    ports:
+      - '1010:1010'
+    environment:
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      DEAL-SERVER-URL: http://deal:9090
+    depends_on:
+      - kafka
+
+  deal:
+    container_name: deal
+    build:
+      context: ./deal
+    ports:
+      - '9090:9090'
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://deal-db:5432/deal
+      SPRING_DATASOURCE_USERNAME: Kirill
+      SPRING_DATASOURCE_PASSWORD: eravur
+      CALCULATOR_SERVER-URL: http://calculator:8080
+      DEAL_SERVER-URL: http://localhost:9090
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+    depends_on:
+      - deal-db
+      - kafka
+
+  deal-db:
+    container_name: deal-db
+    image: postgres:latest
+    volumes:
+      - /var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_DB: deal
+      POSTGRES_USER: Kirill
+      POSTGRES_PASSWORD: eravur
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-U", "Kirill", "-d", "deal" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+
+  gateway:
+    container_name: gateway
+    build:
+      context: ./gateway
+    ports:
+      - '8079:8079'
+    environment:
+        STATEMENT-SERVER-URL: http://statement:7070
+        DEAL-SERVER-URL: http://deal:9090
+
+  statement:
+    container_name: statement
+    build:
+      context: ./statement
+    ports:
+      - '7070:7070'
+    environment:
+      DEAL-SERVER-URL: http://deal:9090
+
