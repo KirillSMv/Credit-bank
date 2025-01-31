@@ -55,6 +55,9 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           slug: KirillSMv/Credit-bank
+          fail_ci_if_error: true
+          verbose: true
+          require_ci_to_pass: false
 
       - name: Upload all JARs
         uses: actions/upload-artifact@v4
