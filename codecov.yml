@@ -11,3 +11,7 @@ comment:
   require_changes: false
   require_base: no
   require_head: yes
+  hide_project_coverage: false
+  hide_complexity: true
+  hide_files: true
+  hide_lines: true
