@@ -13,5 +13,6 @@ comment:
   require_head: yes
   hide_project_coverage: false
   hide_complexity: true
-  hide_files: true
-  hide_lines: true
+  hide_files: true  # Скрыть список файлов
+  hide_lines: true  # Скрыть строки с отсутствующим покрытием
+  show_critical_paths: false  # Отключить показ проблемных файлов
