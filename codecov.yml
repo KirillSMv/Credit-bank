@@ -5,3 +5,9 @@ coverage:
         target: auto
         threshold: 0%
         compare: false
+comment:
+  layout: "header"
+  behavior: default
+  require_changes: false
+  require_base: no
+  require_head: yes
