@@ -1,0 +1,88 @@
+name: CI Pipeline
+
+on:
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_DB: test_db
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: Eravur
+        ports:
+          - 5432:5432
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: 21
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Clean, test, verify
+        run: mvn clean verify -B
+
+      - name: Cache SonarQube packages
+        uses: actions/cache@v4
+        with:
+            path: ~/.sonar/cache
+            key: ${{ runner.os }}-sonar
+            restore-keys: ${{ runner.os }}-sonar
+      - name: Cache Maven packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+      - name: Build and analyze
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=KirillSMv_Credit-bank
+
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          slug: KirillSMv/Credit-bank
+          fail_ci_if_error: true
+          verbose: true
+
+      - name: Upload all JARs
+        uses: actions/upload-artifact@v4
+        with:
+          name: jar-files
+          path: "**/target/*.jar"
+
+  docker-compose-up:
+    runs-on: ubuntu-latest
+    needs: build-and-test
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download JAR artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: jar-files
+          path: .
+
+      - name: Remove old containers
+        run: |
+          docker compose down --rmi all --volumes --remove-orphans || echo "No running containers"
+
+      - name: Start containers
+        run: docker compose up -d --build --wait --wait-timeout 45
+
+      - name: Stop Docker-Compose
+        run: docker compose down --volumes
